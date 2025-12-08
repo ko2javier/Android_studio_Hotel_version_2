@@ -17,8 +17,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.example.hotel_hw_1.R;
+import com.example.hotel_hw_1.dto.AppDatabase;
+import com.example.hotel_hw_1.dto.UsuarioDao;
+import com.example.hotel_hw_1.dto.UsuarioEntity;
 
 public class Presentacion extends AppCompatActivity {
 
@@ -27,11 +31,8 @@ public class Presentacion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_presentacion);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        // inserto los usuarios a pelo!!
+        insertarUsuariosIniciales();
         // Espera 3 segundos y luego abre la segunda actividad
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -41,5 +42,39 @@ public class Presentacion extends AppCompatActivity {
                 finish(); // para que no vuelva al splash si el usuario pulsa atrás
             }
         }, 3000); // 3000 ms = 3 segundos
+    }
+    private void insertarUsuariosIniciales() {
+        UsuarioDao dao = AppDatabase.getInstance(this).usuarioDao();
+
+        if (dao.getAll().size() > 0) {
+            Log.d("ROOM", "Usuarios ya existen: " + dao.getAll().size());
+            return;  // Ya no los inserta
+        }
+
+        Log.d("ROOM", "Insertando usuarios iniciales...");
+
+        dao.insertar(new UsuarioEntity(
+                "gerente@hotel.com", "1234", "Pedrito", "Calvo", "666777888", "gerente"
+        ));
+
+        dao.insertar(new UsuarioEntity(
+                "recepcion@hotel.com", "1234", "Ana", "Martínez", "666777888", "recepcionista"
+        ));
+
+        dao.insertar(new UsuarioEntity(
+                "limpieza@hotel.com", "1234", "Luis", "Pérez", "666111222", "limpieza"
+        ));
+
+        dao.insertar(new UsuarioEntity(
+                "mantenimiento@hotel.com", "1234", "Marcos", "Gómez", "666333444", "mantenimiento"
+        ));
+
+        dao.insertar(new UsuarioEntity(
+                "huesped_2@hotel.com", "1234", "Juan", "Lorenzo", "699999999", "huesped"
+        ));
+
+        dao.insertar(new UsuarioEntity(
+                "huesped@hotel.com", "1234", "Diana", "Río", "699999999", "huesped"
+        ));
     }
 }

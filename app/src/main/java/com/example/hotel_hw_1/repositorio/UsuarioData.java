@@ -7,6 +7,12 @@
 
 package com.example.hotel_hw_1.repositorio;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.example.hotel_hw_1.dto.AppDatabase;
+import com.example.hotel_hw_1.dto.UsuarioDao;
+import com.example.hotel_hw_1.dto.UsuarioEntity;
 import com.example.hotel_hw_1.modelo.Usuario;
 
 import java.util.ArrayList;
@@ -30,13 +36,33 @@ public class UsuarioData {
                 "Diana", "Rio", "699999999"));
     }
 
-    public static Usuario checkLogin(String email, String pass) {
+    /*Metodo para verificar los usuarios y las contraseñas!!*/
+    public static Usuario checkLogin(Context ctx, String email, String pass) {
+        //hago la instacia de la entidad para hacer la consulta
+        UsuarioDao dao = AppDatabase.getInstance(ctx).usuarioDao();
+        // compruebo que estan todos los usuarios!!!
+        List<UsuarioEntity> lista = dao.getAll();
+        Log.d("ROOM", "Usuarios en BD: " + lista.size());
+        // hago la consulta!! para verificar el email
+        UsuarioEntity entity = dao.login(email, pass);
+        /*
         for (Usuario u : usuarios) {
             if (u.getEmail().equals(email) && u.getPass().equals(pass)) {
                 return u;
             }
+        }*/
+        if (entity == null) {
+            return null; // Usuario NO existe o pass incorrecta
         }
-        return null;
+        // Convertimos UsuarioEntity -> Usuario normal
+        return new Usuario(
+                entity.getEmail(),
+                entity.getPass(),
+                entity.getTipo_usuario(),
+                entity.getNombre(),
+                entity.getApellidos(),
+                entity.getTelefono()
+        );
     }
 
     public static void addUsuario(Usuario u) {

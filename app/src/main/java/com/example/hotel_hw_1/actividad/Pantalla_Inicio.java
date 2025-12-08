@@ -100,7 +100,7 @@ public class Pantalla_Inicio extends AppCompatActivity {
         String campo_user = et_campo_user.getText().toString().trim();
         String campo_pass = et_campo_password.getText().toString().trim();
 
-        Usuario u = UsuarioData.checkLogin(campo_user, campo_pass);
+        Usuario u = UsuarioData.checkLogin(this, campo_user, campo_pass);
 
         if (u != null) {
             Usuario.setInstance(u);
