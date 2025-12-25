@@ -18,6 +18,7 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.AdaptadorEncuesta;
 import com.example.hotel_hw_1.modelo.Encuesta;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,8 @@ public class Consultar_Encuesta_Satisfaccion extends AppCompatActivity {
         setContentView(R.layout.activity_consultar_encuestas_satisfaccion);
 
         ListView listaEncuestas = findViewById(R.id.lista_encuestas);
-        Button btnVolver = findViewById(R.id.btn_volver);
+        MaterialButton btnVolver = findViewById(R.id.btn_volver);
+
 
         Usuario usuario = Usuario.getInstance();
         String tipoUser = usuario.getTipo_usuario().toLowerCase();

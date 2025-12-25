@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.AdaptadorReserva;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Consultar_Estado_Reserva extends AppCompatActivity {
 
         // definimos variables
 
-        Button btnVolver = findViewById(R.id.btn_volver_consultar_reservas);
+        MaterialButton btnVolver = findViewById(R.id.btn_volver_consultar_reservas);
         ListView listaReservas = findViewById(R.id.lista_reservas);
 
         //  Obtener reservas del usuario actual

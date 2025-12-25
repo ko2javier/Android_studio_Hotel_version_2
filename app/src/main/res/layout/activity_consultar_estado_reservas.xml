@@ -37,8 +37,7 @@
         android:elevation="6dp"
         android:layout_marginBottom="20dp" />
 
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_consultar_reservas"
         android:layout_width="match_parent"
         android:layout_marginTop="40dp"
@@ -46,6 +45,7 @@
         android:layout_height="wrap_content"
         android:text="VOLVER"
         android:backgroundTint="#0D47A1"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"/>
+
 
 </LinearLayout>

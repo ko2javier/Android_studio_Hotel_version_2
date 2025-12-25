@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "767478868824",
+    "project_id": "sanviatorprimerproyecto",
+    "storage_bucket": "sanviatorprimerproyecto.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767478868824:android:1e54e46fe7332a24c8532d",
+        "android_client_info": {
+          "package_name": "com.app.hotel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFWGzjZ04845nOmBeJIL-rnnfdwCO1m3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767478868824:android:07128da440b79dbac8532d",
+        "android_client_info": {
+          "package_name": "com.example.hotel_hw_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFWGzjZ04845nOmBeJIL-rnnfdwCO1m3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,13 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.modelo.Validacion;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class Consultar_Editar_Perfil extends AppCompatActivity {
     private String nuevoNombre,nuevosApellidos, nuevoTelefono, nuevaPass;
-    private EditText field_email,field_password,field_type_user,field_nombre,field_apellidos,
-            field_phone;
-    private Button btn_confirmar_cambios,btn_volver;
+    private TextInputEditText field_email, field_password, field_type_user,
+            field_nombre, field_apellidos, field_phone;
+    private MaterialButton btn_confirmar_cambios, btn_volver;
 
 
     /* Con este metodo

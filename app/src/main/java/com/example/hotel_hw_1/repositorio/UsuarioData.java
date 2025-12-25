@@ -14,6 +14,9 @@ import com.example.hotel_hw_1.dto.AppDatabase;
 import com.example.hotel_hw_1.dto.UsuarioDao;
 import com.example.hotel_hw_1.dto.UsuarioEntity;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,14 +58,48 @@ public class UsuarioData {
             return null; // Usuario NO existe o pass incorrecta
         }
         // Convertimos UsuarioEntity -> Usuario normal
-        return new Usuario(
-                entity.getEmail(),
-                entity.getPass(),
-                entity.getTipo_usuario(),
-                entity.getNombre(),
-                entity.getApellidos(),
-                entity.getTelefono()
-        );
+        return new Usuario( entity.getEmail(), entity.getPass(), entity.getTipo_usuario(),
+                entity.getNombre(), entity.getApellidos(), entity.getTelefono());
+    }
+
+    public static void loginRealtime( Context ctx, String email, String pass,LoginCallback callback) {
+
+        FirebaseDatabase.getInstance()
+                .getReference("usuarios")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+
+                    boolean existeEnFirebase = false;
+
+                    for (DataSnapshot userSnap : snapshot.getChildren()) {
+
+                        String emailDb = userSnap.child("email").getValue(String.class);
+                        String passDb  = userSnap.child("pass").getValue(String.class);
+
+                        if (email.equals(emailDb) && pass.equals(passDb)) {
+                            existeEnFirebase = true;
+                            break;
+                        }
+                    }
+
+                    if (!existeEnFirebase) {
+                        callback.onError("Usuario o contraseña incorrectos");
+                        return;
+                    }
+
+                    // SEGUNDO FILTRO: SQLite (síncrono)
+                    Usuario u = UsuarioData.checkLogin(ctx, email, pass);
+
+                    if (u == null) {
+                        callback.onError("Usuario no registrado en el sistema interno");
+                        return; }
+
+                    callback.onSuccess(u);
+
+                })
+                .addOnFailureListener(e ->
+                        callback.onError("Error de conexión con Firebase")
+                );
     }
 
     public static void addUsuario(Usuario u) {

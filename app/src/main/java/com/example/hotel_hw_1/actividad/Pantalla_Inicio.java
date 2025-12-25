@@ -22,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.modelo.Validacion;
+import com.example.hotel_hw_1.repositorio.LoginCallback;
 import com.example.hotel_hw_1.repositorio.UsuarioData;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -99,7 +100,7 @@ public class Pantalla_Inicio extends AppCompatActivity {
         // Paso 4- Intentar login solo si pasa las validaciones
         String campo_user = et_campo_user.getText().toString().trim();
         String campo_pass = et_campo_password.getText().toString().trim();
-
+        /*
         Usuario u = UsuarioData.checkLogin(this, campo_user, campo_pass);
 
         if (u != null) {
@@ -110,6 +111,37 @@ public class Pantalla_Inicio extends AppCompatActivity {
         } else {
 
             Snackbar.make(v, "Usuario o contraseña incorrectos", Snackbar.LENGTH_SHORT).show();
-        }
+        }*/
+
+        /*
+         * Login asíncrono con Firebase.
+         * El resultado se gestiona mediante una implementación local de LoginCallback.
+         * Aquí se decide qué hacer en caso de éxito o error sin acoplar la Activity.
+         */
+
+        UsuarioData.loginRealtime( this, campo_user, campo_pass, new LoginCallback() {
+
+                    @Override
+                    public void onSuccess(Usuario usuario) {
+
+                        Usuario.setInstance(usuario);
+
+                        Log.d("LOGIN_DEBUG",
+                                "Usuario logueado: " + usuario.getEmail()
+                                        + " | Tipo: " + usuario.getTipo_usuario());
+
+                        Intent intent = usuario.obtenerPantalla(Pantalla_Inicio.this);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(String mensaje) {
+
+                        Snackbar.make(v,
+                                mensaje,
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+        );
     }
 }

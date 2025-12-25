@@ -31,17 +31,17 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="volver"
-        android:background="#1a759f"
-        android:textColor="@color/white"
+        android:text="Volver"
+        app:backgroundTint="#1a759f"
         android:padding="8dp"
-        />
+        android:textColor="@color/white"/>
+
 
 
 </LinearLayout>

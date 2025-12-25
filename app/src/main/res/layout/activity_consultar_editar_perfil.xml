@@ -6,11 +6,11 @@
     android:id="@+id/consultar_editar_perfil"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actividad.Consultar_Editar_Perfil"
     android:background="#F5F5DC"
     android:orientation="vertical"
     android:padding="10dp"
-    >
+    tools:context=".actividad.Consultar_Editar_Perfil">
+
     <TextView
         android:id="@+id/text_consult_editar_perfil"
         android:layout_width="match_parent"
@@ -21,156 +21,177 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#AB1F1F"
-        android:textSize="20sp"
+        android:textSize="20sp"/>
 
-        />
-
+    <!-- NOMBRE -->
     <TextView
         android:id="@+id/txt_nombre"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="30dp"
         android:text="Nombre: "
         android:textStyle="bold"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="wrap_content"/>
+        android:textSize="15sp"/>
 
-    <EditText
-        android:id="@+id/campo_nombre_editar_perfil"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:inputType="text"
-        />
+        android:layout_marginHorizontal="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_nombre_editar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- APELLIDOS -->
     <TextView
         android:id="@+id/txt_apellidos"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
         android:text="Apellidos: "
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/campo_apellidos_editar_perfil"
+        android:textSize="15sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp">
 
-        android:enabled="false"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:inputType="text"
-        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_apellidos_editar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- EMAIL -->
     <TextView
         android:id="@+id/txt_email"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
         android:text="Correo Electrónico: "
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/campo_email_editar_perfil"
+        android:textSize="15sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:inputType="textEmailAddress"
-        />
+        android:layout_marginHorizontal="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_email_editar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- TELÉFONO -->
     <TextView
         android:id="@+id/txt_phone"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
         android:text="Teléfono: "
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/campo_telefono_editar_perfil"
+        android:textSize="15sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:inputType="phone"
-        />
+        android:layout_marginHorizontal="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_telefono_editar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- PASSWORD -->
     <TextView
         android:id="@+id/txt_pass"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
         android:text="Contraseña: "
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/campo_pass_editar_perfil"
+        android:textSize="15sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:inputType="text"
-        />
+        android:layout_marginHorizontal="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_pass_editar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- TIPO USUARIO -->
     <TextView
         android:id="@+id/txt_type"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
         android:text="Tipo de Usuario: "
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/campo_tipo_user_editar_perfil"
+        android:textSize="15sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp">
 
-        android:enabled="false"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:inputType="text"
-        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_tipo_user_editar_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- BOTONES -->
     <LinearLayout
         android:id="@+id/linear_botones_editar_perfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        >
+        android:layout_gravity="center">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_confirmar_editar_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#56D67E"
             android:text="Confirmar cambios"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            />
-        <Button
+            app:backgroundTint="#56D67E"
+            android:textColor="@color/white"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_volver_editar_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:background="#1a759f"
             android:text="Volver"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            />
-
-
+            app:backgroundTint="#1a759f"
+            android:textColor="@color/white"/>
     </LinearLayout>
-
-
-
-
 
 </LinearLayout>
