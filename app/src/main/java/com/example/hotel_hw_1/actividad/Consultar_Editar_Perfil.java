@@ -59,10 +59,8 @@ public class Consultar_Editar_Perfil extends AppCompatActivity {
      *     valido todo lo que tiene que ver
      *     con los campos nombre, apellidos , etc. Si estan correcto
      *     los guardo!!
-     * @param v
-     * @param usuario
-     * @return
-     */
+     *
+     * */
 
     private boolean validando_compos_usuario(View v, Usuario usuario) {
         int errores = 0;

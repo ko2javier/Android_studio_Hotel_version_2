@@ -24,11 +24,13 @@ import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.modelo.Validacion;
 import com.example.hotel_hw_1.repositorio.LoginCallback;
 import com.example.hotel_hw_1.repositorio.UsuarioData;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class Pantalla_Inicio extends AppCompatActivity {
-    private Button btn_iniciar_sesion,btn_registrarse;
-    private EditText et_campo_user, et_campo_password;
+    private MaterialButton btn_iniciar_sesion,btn_registrarse;
+    private TextInputEditText et_campo_user, et_campo_password;
 
 
 

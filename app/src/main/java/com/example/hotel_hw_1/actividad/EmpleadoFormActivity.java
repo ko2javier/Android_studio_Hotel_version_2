@@ -17,10 +17,11 @@ import com.example.hotel_hw_1.modelo.Empleado;
 import com.example.hotel_hw_1.modelo.Validacion;
 import com.example.hotel_hw_1.repositorio.EmpleadoData;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class EmpleadoFormActivity extends AppCompatActivity {
     // defino variables
-    private EditText etNombre, etApellidos, etEmail, etTelefono, etRol;
+    private TextInputEditText etNombre, etApellidos, etEmail, etTelefono, etRol;
 
     private Button btnGuardar, btnCancelar;
 

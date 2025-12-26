@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.AdaptadorEncuestaEditable;
 import com.example.hotel_hw_1.modelo.Encuesta;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Crear_Encuesta_Satisfaccion extends AppCompatActivity {
     // definimos variables
     private ListView lvEncuestas;
     private AdaptadorEncuestaEditable adaptador;
-    private Button btnEnviar, btnVolver;
+    private MaterialButton btnEnviar, btnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

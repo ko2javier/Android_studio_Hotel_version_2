@@ -12,12 +12,16 @@ package com.example.hotel_hw_1.modelo;
  *
  */
 public class Empleado {
+    private String id;
 
     private String nombre;
     private String apellidos;
     private String rol;       // Aca defino el tipo de empleado que sera!!!!
     private String email;
     private String telefono;
+
+    public Empleado() {
+    }
 
     public Empleado(String nombre, String apellidos, String rol, String email, String telefono) {
         this.nombre = nombre;
@@ -26,6 +30,10 @@ public class Empleado {
         this.email = email;
         this.telefono = telefono;
     }
+
+    public String getId() {  return id;}
+
+    public void setId(String id) { this.id = id;}
 
     // Getters
     public String getNombre() { return nombre; }

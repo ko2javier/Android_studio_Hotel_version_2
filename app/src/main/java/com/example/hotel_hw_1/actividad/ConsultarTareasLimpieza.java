@@ -18,6 +18,8 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Tarea;
 import com.example.hotel_hw_1.adaptador.TareaAdapter;
 import com.example.hotel_hw_1.repositorio.TareaData;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +28,8 @@ public class ConsultarTareasLimpieza extends AppCompatActivity {
 // defino variables
     private ListView listViewTareas;
     private RadioGroup radioGroup;
-    private RadioButton rbPendientes, rbAsignadas;
-    private Button btnVolver;
+    private MaterialRadioButton rbPendientes, rbAsignadas;
+    private MaterialButton btnVolver;
 
     private TareaAdapter adapter;
     private List<Tarea> listaFiltrada = new ArrayList<>();

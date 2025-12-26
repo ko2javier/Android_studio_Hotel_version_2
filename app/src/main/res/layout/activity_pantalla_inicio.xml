@@ -19,7 +19,7 @@
         android:orientation="horizontal"
         >
 <!-- header-->
-    <TextView
+        <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_marginEnd="5dp"
 
         />
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_marginTop="20dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -47,33 +47,63 @@
 
     <!-- parte del medio-->
 
-    <EditText
-        android:id="@+id/campo_user_name"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="usuario@yahoo.com"
+        android:layout_marginHorizontal="30dp"
+        android:textSize="18sp"
         android:layout_marginTop="100dp"
-        android:textColor="@color/black"
-        android:textStyle="italic"
-        android:layout_gravity="center"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="5dp"
-        android:inputType="text"
+        android:text="Usuario:"/>
 
-        />
-    <EditText
-        android:id="@+id/campo_pasword"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="contraseña"
-        android:textColor="@color/black"
-        android:textStyle="italic"
-        android:inputType="textPassword"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_user_name"
 
-        />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/black"
+            android:textStyle="italic"
+            android:layout_gravity="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="text"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_contrasena"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:text="Contraseña:"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/campo_pasword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="italic"
+            android:layout_gravity="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <!-- botones-->
     <LinearLayout
         android:id="@+id/linear_botones_end"
@@ -86,25 +116,25 @@
         android:gravity="center"
 
         >
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/boton_inicio_sesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#9BD973"
+            android:backgroundTint="#9BD973"
             android:text="Iniciar Sesion "
             android:textStyle="bold"
-            android:padding="3dp"
+            android:padding="20dp"
             android:layout_marginEnd="30dp"
 
              />
-        <Button
-            android:id="@+id/boton_inicio_registrase"
+        <com.google.android.material.button.MaterialButton
+             android:id="@+id/boton_inicio_registrase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#F8C537"
+            android:backgroundTint="#F8C537"
             android:text="Registrarse "
             android:textStyle="bold"
-            android:padding="3dp"
+            android:padding="20dp"
 
             />
 "

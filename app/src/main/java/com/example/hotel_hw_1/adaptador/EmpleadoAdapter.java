@@ -1,81 +1,92 @@
-/**
- * Autor: K. Jabier O'Reilly
- * Proyecto: Gestión de Hotel - Práctica 1ª Evaluación (PMDM 2025/2026)
- * Clase: EmpleadoAdapter.java
- *
- */
-
 package com.example.hotel_hw_1.adaptador;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.widget.ArrayAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Empleado;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
-public class EmpleadoAdapter extends ArrayAdapter<Empleado> {
+public class EmpleadoAdapter
+        extends RecyclerView.Adapter<EmpleadoAdapter.EmpleadoViewHolder> {
 
-    private final Context context;
-    private final List<Empleado> listaEmpleados;
-
-    public interface OnEmpleadoActionListener {
-        void onEditar(Empleado empleado, int position);
-        void onEliminar(Empleado empleado, int position);
+    // ===== INTERFACE (IGUAL QUE EN MODULO) =====
+    public interface OnEmpleadoClickListener {
+        void onEditarClick(Empleado empleado);
+        void onBorrarClick(Empleado empleado);
     }
 
-    private final OnEmpleadoActionListener listener;
+    private List<Empleado> listaEmpleados;
+    private OnEmpleadoClickListener listener;
 
-    public EmpleadoAdapter(@NonNull Context context, List<Empleado> listaEmpleados, OnEmpleadoActionListener listener) {
-        super(context, 0, listaEmpleados);
-        this.context = context;
+    public EmpleadoAdapter(List<Empleado> listaEmpleados,
+                           OnEmpleadoClickListener listener) {
         this.listaEmpleados = listaEmpleados;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_empleado, parent, false);
-        }
+    public EmpleadoViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_empleado, parent, false);
+
+        return new EmpleadoViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(
+            @NonNull EmpleadoViewHolder holder, int position) {
 
         Empleado empleado = listaEmpleados.get(position);
 
-        TextView txtNombre = convertView.findViewById(R.id.txt_nombre_empleado);
-        TextView txtRol = convertView.findViewById(R.id.txt_rol_empleado);
-        Button btnEditar = convertView.findViewById(R.id.btn_editar_empleado);
-        Button btnEliminar = convertView.findViewById(R.id.btn_eliminar_empleado);
+        holder.txtNombreEmpleado.setText(
+                empleado.getNombre() + " " + empleado.getApellidos()
+        );
+        holder.txtRolEmpleado.setText(empleado.getRol());
 
-        txtNombre.setText(empleado.getNombre() + " " + empleado.getApellidos());
-        txtRol.setText("Rol: " + empleado.getRol());
-
-        btnEditar.setOnClickListener(v -> {
+        // CLICK EDITAR
+        holder.btnEditarEmpleado.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onEditar(empleado, position);
+                listener.onEditarClick(empleado);
             }
         });
 
-        btnEliminar.setOnClickListener(v -> {
+        // CLICK BORRAR
+        holder.btnEliminarEmpleado.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onEliminar(empleado, position);
+                listener.onBorrarClick(empleado);
             }
         });
-
-        return convertView;
     }
 
-    // Refrescar la lista cuando haya cambios (añadir, eliminar o editar)
-    public void actualizarDatos() {
-        notifyDataSetChanged();
+    @Override
+    public int getItemCount() {
+        return listaEmpleados.size();
+    }
+
+    // ===== VIEW HOLDER =====
+    static class EmpleadoViewHolder extends RecyclerView.ViewHolder {
+
+        TextView txtNombreEmpleado, txtRolEmpleado;
+        MaterialButton btnEditarEmpleado, btnEliminarEmpleado;
+
+        public EmpleadoViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            txtNombreEmpleado = itemView.findViewById(R.id.txt_nombre_empleado);
+            txtRolEmpleado = itemView.findViewById(R.id.txt_rol_empleado);
+            btnEditarEmpleado = itemView.findViewById(R.id.btn_editar_empleado);
+            btnEliminarEmpleado = itemView.findViewById(R.id.btn_eliminar_empleado);
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,11 +20,15 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.repositorio.UsuarioData;
 import com.example.hotel_hw_1.modelo.Validacion;
+import com.google.android.material.button.MaterialButton;
+//import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class Pantalla_Registro extends AppCompatActivity {
-    private EditText et_nombre,et_apellidos,et_email, et_phone, et_password,et_confirmPassword;
-    private  Button btn_registrar, btn_cancelar; private Switch sw_terminos;
+    private TextInputEditText et_nombre,et_apellidos,et_email, et_phone, et_password,et_confirmPassword;
+    private MaterialButton btn_registrar, btn_cancelar;
+    private Switch sw_terminos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

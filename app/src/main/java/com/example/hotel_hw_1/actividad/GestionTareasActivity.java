@@ -18,14 +18,16 @@ import com.example.hotel_hw_1.modelo.Tarea;
 import com.example.hotel_hw_1.adaptador.TareaAdapter;
 import com.example.hotel_hw_1.repositorio.TareaData;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.List;
 
 public class GestionTareasActivity extends AppCompatActivity {
 
     private ListView listViewTareas;
-    private TextView txtTitulo;
-    private Button btnVolver;
+    private MaterialTextView txtTitulo;
+    private MaterialButton btnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

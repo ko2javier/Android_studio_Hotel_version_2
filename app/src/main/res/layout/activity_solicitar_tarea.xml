@@ -11,7 +11,7 @@
     android:padding="25dp"
     android:background="#FAF9E8">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo"
         android:text="Solicitud de Limpieza / Mantenimiento"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:layout_marginBottom="20dp"/>
 
     <!-- Tipo de servicio -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:text="Tipo de servicio:"
         android:textStyle="bold"
         android:layout_marginTop="25dp"
@@ -38,14 +38,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_limpieza"
             android:text="Limpieza"
             android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_mmto"
             android:text="Mantenimiento"
             android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
     </RadioGroup>
 
     <!-- Tipo de tarea -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:text="Tipo de tarea:"
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -68,14 +68,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_habitacion"
             android:text="Habitación"
             android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_pasillo"
             android:text="Pasillo"
             android:layout_width="wrap_content"
@@ -84,7 +83,7 @@
     </RadioGroup>
 
     <!-- Número habitación -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_no_habitacion"
         android:text="Número de habitación (100–599):"
         android:layout_width="wrap_content"
@@ -92,14 +91,22 @@
         android:layout_marginTop="25dp"
         android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/etx_numero_room"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ejemplo: 112"
-        android:inputType="number"/>
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etx_numero_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:hint="Ejemplo: 112"
+            android:inputType="number"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_error_habitacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,7 +124,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_choose_zona"
             android:text="Zona:"
             android:layout_width="0dp"
@@ -126,12 +133,20 @@
             android:layout_gravity="start"
             android:textStyle="bold"/>
 
-        <Spinner
-            android:id="@+id/spinnerZona"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown" />
+            android:hint="Selecciona una Zona"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spinnerZona"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <!-- Pasillo -->
@@ -144,7 +159,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_pasillo"
             android:text="Pasillo:"
             android:layout_width="0dp"
@@ -153,30 +168,41 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"/>
 
-        <Spinner
-            android:id="@+id/spinnerPasillo"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown" />
+            android:hint="Selecciona una Zona"
+            android:layout_marginBottom="20dp"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spinnerPasillo"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <!-- Botones -->
-    <Button
-        android:id="@+id/btn_enviar_solicitud"
+    <com.google.android.material.button.MaterialButton
+       android:id="@+id/btn_enviar_solicitud"
         android:text="ENVIAR SOLICITUD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:padding="20dp"
         android:backgroundTint="#4CAF50"
         android:textColor="#FFF"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver"
         android:text="VOLVER"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:padding="20dp"
         android:backgroundTint="#0D47A1"
         android:textColor="#FFF"/>
 

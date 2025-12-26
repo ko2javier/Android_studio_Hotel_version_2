@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.AdapterHuesped;
 import com.example.hotel_hw_1.repositorio.HuespedData;
+import com.google.android.material.button.MaterialButton;
 
 public class ConsultarHuespedesActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class ConsultarHuespedesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_consultar_huespedes);
 
         ListView listViewHuespedes = findViewById(R.id.list_view_huespedes);
-        Button btnVolver = findViewById(R.id.btn_volver_listado);
+       MaterialButton btnVolver = findViewById(R.id.btn_volver_listado);
 
         AdapterHuesped adapter = new AdapterHuesped(this, HuespedData.listarHuespedes());
         listViewHuespedes.setAdapter(adapter);

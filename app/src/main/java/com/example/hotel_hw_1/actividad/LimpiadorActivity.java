@@ -15,10 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class LimpiadorActivity extends AppCompatActivity {
-    private Button btn_consulta_perfil, btn_consultar_tareas_asignadas_pdtes,
+    private MaterialButton btn_consulta_perfil, btn_consultar_tareas_asignadas_pdtes,
              btn_consultar_encuestas_limpiador,boton_cerrar_sesion;
 
     @Override

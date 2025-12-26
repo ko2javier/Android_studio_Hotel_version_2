@@ -16,9 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class RecepcionistaActivity extends AppCompatActivity {
+    private MaterialButton btn_consultar_editar_perfil_recp,btn_consultar_ocupacion_hotel_recp,
+            btn_consultar_listado_huspedes_recp,btn_add_reservas_hotel,btn_gestionar_check_in_out,
+            btn_consultar_encuestas,boton_cerrar_sesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +31,16 @@ public class RecepcionistaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recepcionista_menu);
 
         // defino botones
-        Button btn_consultar_editar_perfil_recp=
+         btn_consultar_editar_perfil_recp=
                 findViewById(R.id.btn_consultar_editar_perfil_recp);
-        Button btn_consultar_ocupacion_hotel_recp=
+         btn_consultar_ocupacion_hotel_recp=
                 findViewById(R.id.btn_consultar_ocupacion_hotel_recp);
-        Button btn_consultar_listado_huspedes_recp =
+         btn_consultar_listado_huspedes_recp =
                 findViewById(R.id.btn_consultar_listado_huspedes_recp);
-        Button btn_add_reservas_hotel= findViewById(R.id.btn_add_reservas_hotel);
-        Button btn_gestionar_check_in_out= findViewById(R.id.btn_gestionar_check_in_out);
-        Button btn_consultar_encuestas= findViewById(R.id.btn_consultar_Encuestas);
-         Button boton_cerrar_sesion = findViewById(R.id.boton_cerrar_sesion);
+         btn_add_reservas_hotel= findViewById(R.id.btn_add_reservas_hotel);
+         btn_gestionar_check_in_out= findViewById(R.id.btn_gestionar_check_in_out);
+         btn_consultar_encuestas= findViewById(R.id.btn_consultar_Encuestas);
+         boton_cerrar_sesion = findViewById(R.id.boton_cerrar_sesion);
 
         btn_consultar_editar_perfil_recp.setOnClickListener(v->
         {

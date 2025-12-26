@@ -11,7 +11,7 @@
     android:padding="10dp"
     tools:context=".actividad.Consultar_Editar_Perfil">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_consult_editar_perfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:textSize="20sp"/>
 
     <!-- NOMBRE -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- APELLIDOS -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_apellidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- EMAIL -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- TELÉFONO -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- PASSWORD -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- TIPO USUARIO -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirmar cambios"
-            app:backgroundTint="#56D67E"
+            android:backgroundTint="#56D67E"
             android:textColor="@color/white"/>
 
         <com.google.android.material.button.MaterialButton
@@ -190,7 +190,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="Volver"
-            app:backgroundTint="#1a759f"
+            android:backgroundTint="#1a759f"
             android:textColor="@color/white"/>
     </LinearLayout>
 

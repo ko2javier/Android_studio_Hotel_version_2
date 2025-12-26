@@ -8,7 +8,7 @@
     android:padding="50dp"
     >
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_pantalla_ocupacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
     android:id="@+id/txt_ocupacion_total"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -39,15 +39,17 @@
     android:layout_marginTop="16dp"
     android:gravity="center" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:background="#1a759f"
+        android:backgroundTint="#5393C7"
         android:padding="5dp"
         android:text="volver"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"/>
+
+
 
 </LinearLayout>

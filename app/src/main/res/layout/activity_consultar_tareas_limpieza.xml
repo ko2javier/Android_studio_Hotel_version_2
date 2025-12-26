@@ -10,7 +10,7 @@
     tools:context=".actividad.ConsultarTareasLimpieza">
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_tareas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:layout_marginBottom="12dp" />
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_limpieza"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,8 +39,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginBottom="16dp">
-
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_pendientes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,8 +47,7 @@
             android:checked="true"
             android:buttonTint="@android:color/holo_green_dark"
             android:textColor="#000" />
-
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_asignadas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,6 +55,7 @@
             android:layout_marginStart="32dp"
             android:buttonTint="@android:color/holo_green_dark"
             android:textColor="#000" />
+
     </RadioGroup>
 
 
@@ -68,15 +67,15 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="4dp" />
 
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_tareas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VOLVER"
         android:textStyle="bold"
-        android:background="@color/teal_700"
+        android:backgroundTint="#0D47A1"
         android:textColor="@android:color/white"
         android:layout_marginTop="12dp" />
+
 
 </LinearLayout>

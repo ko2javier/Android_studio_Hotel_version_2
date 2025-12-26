@@ -21,10 +21,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class GerenteActivity extends AppCompatActivity {
-    private Button btn_consultar_perfil, btn_consultar_ocupacion,btn_consultar_encuestas_gerente,
+    private MaterialButton btn_consultar_perfil, btn_consultar_ocupacion,btn_consultar_encuestas_gerente,
             boton_cerrar_sesion,btn_consultar_listado_huspedes, btn_consultar_listado_empleados,
             btn_consultar_tareas_pdtes;
 

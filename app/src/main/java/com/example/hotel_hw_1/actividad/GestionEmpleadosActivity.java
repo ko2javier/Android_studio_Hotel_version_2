@@ -1,34 +1,30 @@
-/**
- * Autor: K. Jabier O'Reilly
-
- */
-
 package com.example.hotel_hw_1.actividad;
-
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hotel_hw_1.R;
-import com.example.hotel_hw_1.modelo.Empleado;
 import com.example.hotel_hw_1.adaptador.EmpleadoAdapter;
+import com.example.hotel_hw_1.modelo.Empleado;
 import com.example.hotel_hw_1.repositorio.EmpleadoData;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
 public class GestionEmpleadosActivity extends AppCompatActivity {
 
-    private ListView listViewEmpleados;
-    private Button btnAgregar;
+    private RecyclerView rv_empleados;
+    private MaterialButton btnAgregar, btnVolver;
     private EmpleadoAdapter adapter;
     private List<Empleado> listaEmpleados;
+    private DatabaseReference dbEmpleados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,66 +32,66 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_gestion_empleados);
 
-        // defino mis variables
-        listViewEmpleados = findViewById(R.id.lista_empleados);
+        // VIEWS
+        rv_empleados = findViewById(R.id.rv_empleados);
         btnAgregar = findViewById(R.id.btn_agregar_empleado);
-        Button btn_volver_gestion_empleados= findViewById(R.id.btn_volver_gestion_empleados);
+        btnVolver = findViewById(R.id.btn_volver_gestion_empleados);
 
-        // defino la lista de empleados que utilizare en el adapter
+        // RECYCLER
+        rv_empleados.setLayoutManager(new LinearLayoutManager(this));
+
+        // DATOS
         listaEmpleados = EmpleadoData.getEmpleados();
 
-        adapter = new EmpleadoAdapter(this, listaEmpleados, new EmpleadoAdapter.OnEmpleadoActionListener() {
-            @Override
-            // Vamos a la pantalla Form Empleado y pasamos la pos del empleado en EmpleadoData!!
-            public void onEditar(Empleado empleado, int position) {
-                Intent intent = new Intent(GestionEmpleadosActivity.this,
-                        EmpleadoFormActivity.class);
-                intent.putExtra("posicion", position);
-                startActivity(intent);
-            }
+        // ADAPTER
+        adapter = new EmpleadoAdapter(listaEmpleados,
+                new EmpleadoAdapter.OnEmpleadoClickListener() {
 
-            @Override
-            public void onEliminar(Empleado empleado, int position) {
-                mostrarDialogoEliminar(empleado, position);
-            }
-        });
+                    @Override
+                    public void onEditarClick(Empleado empleado) {
+                        int position = listaEmpleados.indexOf(empleado);
 
-        listViewEmpleados.setAdapter(adapter);
+                        Intent intent = new Intent(
+                                GestionEmpleadosActivity.this,
+                                EmpleadoFormActivity.class
+                        );
+                        intent.putExtra("posicion", position);
+                        startActivity(intent);
+                    }
 
-        // declaro los listeners
-        btnAgregar.setOnClickListener(v->{
-            startActivity(new Intent(this, EmpleadoFormActivity.class));
+                    @Override
+                    public void onBorrarClick(Empleado empleado) {
+                        mostrarDialogoEliminar(empleado);
+                    }
+                });
 
-        });
-        btn_volver_gestion_empleados.setOnClickListener(v->{
-            finish();
-        });
+        rv_empleados.setAdapter(adapter);
+
+        // BOTONES
+        btnAgregar.setOnClickListener(v ->
+                startActivity(new Intent(this, EmpleadoFormActivity.class))
+        );
+
+        btnVolver.setOnClickListener(v -> finish());
     }
-/* Este metodo es fundamental
-* con ello logro que se recargue el listado despues de
-* modificar o agregar un valor en la lista de empleado
-* tiene contrapartida en el adaptador de empleado!! , sin ello
-* no funciona!!
-* */
+
+    // REFRESCAR LISTA AL VOLVER DEL FORM
     @Override
     protected void onResume() {
         super.onResume();
         if (adapter != null) {
-            adapter.actualizarDatos();
+            adapter.notifyDataSetChanged();
         }
     }
 
-
-
-
-
-    private void mostrarDialogoEliminar(Empleado empleado, int position) {
+    //  DIÁLOGO ELIMINAR
+    private void mostrarDialogoEliminar(Empleado empleado) {
         new AlertDialog.Builder(this)
                 .setTitle("Eliminar empleado")
                 .setMessage("¿Seguro que desea eliminar a " + empleado.getNombre() + "?")
                 .setPositiveButton("Sí", (dialog, which) -> {
                     EmpleadoData.eliminarEmpleado(empleado);
-                    adapter.actualizarDatos();
+                    adapter.notifyDataSetChanged();
                 })
                 .setNegativeButton("No", null)
                 .show();

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_listado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,8 +25,7 @@
         android:layout_weight="1"
         android:dividerHeight="6dp"
         android:divider="#DDDDDD" />
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_listado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,5 +33,8 @@
         android:backgroundTint="#0D47A1"
         android:textColor="#FFF"
         android:layout_marginTop="10dp" />
+
+
+
 
 </LinearLayout>

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.AdaptadorPlanta;
 import com.example.hotel_hw_1.modelo.Planta;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Consultar_Ocupacion_Hotel extends AppCompatActivity {
         setContentView(R.layout.activity_consultar_ocupacion_hotel);
 
         // defino
-        Button btn_volver= findViewById(R.id.btn_volver);
+        MaterialButton btn_volver= findViewById(R.id.btn_volver);
 
         ListView listView = findViewById(R.id.listaPlantas);
 

@@ -11,7 +11,7 @@
     tools:context=".actividad.GestionTareasActivity">
 
     <!--  Título dinámico -->
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_tareas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,8 +34,7 @@
         android:scrollbars="vertical"
         android:background="#FFFFFF"/>
 
-
-    <Button
+<com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_tareas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

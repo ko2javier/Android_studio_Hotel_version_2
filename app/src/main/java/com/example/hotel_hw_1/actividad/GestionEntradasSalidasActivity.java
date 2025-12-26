@@ -22,14 +22,17 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Huesped;
 import com.example.hotel_hw_1.modelo.Validacion;
 import com.example.hotel_hw_1.repositorio.HuespedData;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class GestionEntradasSalidasActivity extends AppCompatActivity {
     private RadioGroup radioGroupOperacion;
-    private RadioButton rbCheckIn, rbCheckOut;
-    private Button btnVolver, btnCheckIn, btnBuscar,btnCheckOut;
+    private MaterialRadioButton rbCheckIn, rbCheckOut;
+    private MaterialButton btnVolver, btnCheckIn, btnBuscar,btnCheckOut;
     private String nombre,apellidos, telefono,habitacion;
-    private  EditText etNombre,etApellidos, etTelefono, etHabitacion, etNombreBuscar, etApellidosBuscar;
+    private TextInputEditText etNombre,etApellidos, etTelefono, etHabitacion, etNombreBuscar, etApellidosBuscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,15 +19,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Validacion;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 public class Solicitar_Tarea extends AppCompatActivity {
 
-    private EditText etx_numero_room;
-    private TextView txt_error_habitacion;
+    private TextInputEditText etx_numero_room;
+    private MaterialTextView txt_error_habitacion;
     private RadioGroup radioGroupTarea, radioGroupTipoTarea;
-    private Spinner spinnerZona, spinnerPasillo;
-    private Button btnEnviar, btnVolver;
+
+   private  MaterialAutoCompleteTextView spinnerZona,spinnerPasillo;
+    private MaterialButton btnEnviar, btnVolver;
 
     private static String[] pasillos = null, zonasLimpieza = null, zonasMantenimiento = null;
 

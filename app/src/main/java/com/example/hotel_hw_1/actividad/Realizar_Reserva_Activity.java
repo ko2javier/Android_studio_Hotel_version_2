@@ -25,18 +25,26 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.ValidadorReserva;
 import com.example.hotel_hw_1.repositorio.ReservaData;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.Calendar;
 
 public class Realizar_Reserva_Activity extends AppCompatActivity {
-    private RadioButton rbSeleccionado, rbSimple, rbDoble, rbTriple,
+    private MaterialRadioButton rbSeleccionado, rbSimple, rbDoble, rbTriple,
             rb_media_pension, rb_pension_full;
-    private CheckBox checkbox_spa, checkbox_parking;
+    private MaterialCheckBox checkbox_spa, checkbox_parking;
     private RadioGroup radio_group, radiog_type_pension;
-    private   EditText edit_fecha, etNombreHuesped, et_apellidos;
-    private TextView txt_disponibilidad_actual;
-    private Button btn_confirmar_reserva, btn_volver_reserva_flat;
+    private TextInputEditText  etNombreHuesped, et_apellidos,edit_fecha;
+
+    private MaterialTextView txt_disponibilidad_actual;
+    private MaterialButton btn_confirmar_reserva, btn_volver_reserva_flat;
 
 
     // Metodo para verificar la reserva realizada
@@ -128,7 +136,7 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
         btn_volver_reserva_flat = findViewById(R.id.btn_volver_reserva_flat);
          txt_disponibilidad_actual = findViewById(R.id.txt_disponibilidad_actual);
         LinearLayout linearPlanta = findViewById(R.id.linear_planta_reserva);
-        Spinner spinnerPlanta = findViewById(R.id.spinner_planta);
+        MaterialAutoCompleteTextView spinnerPlanta = findViewById(R.id.spinner_planta);
 
 
         // Mostrar disponibilidad inicial
@@ -169,32 +177,28 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
 
     /* Reservo la fecha adecuada, con los limitadores correspondientes*/
     private void reservar_fecha() {
-        final Calendar calen = Calendar.getInstance();
-        int year = calen.get(Calendar.YEAR);
-        int month = calen.get(Calendar.MONTH);
-        int day = calen.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePicker = new DatePickerDialog(
-                this,
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    // Le doy formato a mi Fecha
-                    String fechaSeleccionada = String.format("%02d-%02d-%04d",
-                            selectedDay, (selectedMonth + 1), selectedYear);
-                    edit_fecha.setText(fechaSeleccionada);
-                },
-                year, month, day
-        );
+        // Crear el selector de fecha
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Selecciona una fecha")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build();
 
-        // Limitar fechas válidas
-        Calendar minDate = Calendar.getInstance(); // hoy
-        minDate.add(Calendar.DAY_OF_MONTH, 2);
-        datePicker.getDatePicker().setMinDate(minDate.getTimeInMillis());
+        // Cuando el usuario selecciona la fecha
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(selection);
 
-        Calendar maxDate = Calendar.getInstance();
-        maxDate.add(Calendar.YEAR, 2); // 2 años por encima!!!
-        datePicker.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        datePicker.show();
+            String fechaSeleccionada = String.format("%02d-%02d-%04d", day, month, year);
+            edit_fecha.setText(fechaSeleccionada);
+        });
+
+        // Mostrar el DatePicker
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
     }
 
 

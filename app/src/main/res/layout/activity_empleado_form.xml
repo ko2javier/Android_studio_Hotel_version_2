@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scroll_empleado_form"
-
     android:background="#FAF9E8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     android:padding="30dp">
 
-        <TextView
-            android:id="@+id/txt_titulo_form"
-            android:text="Gestión de Empleado"
-            android:textStyle="bold"
-            android:textColor="#B22222"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
+    <!-- TÍTULO -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_titulo_form"
+        android:text="Gestión de Empleado"
+        android:textStyle="bold"
+        android:textColor="#B22222"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
 
-    <TextView
+    <!-- NOMBRE -->
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,26 +30,41 @@
         android:layout_marginTop="20dp"
         android:text="Nombre:"/>
 
-        <EditText
-            android:id="@+id/et_nombre_empleado"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_nombre_empleado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
-        <TextView
-            android:id="@+id/txt_apellidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_marginTop="20dp"
-            android:text="Apellidos:"/>
-        <EditText
+            android:inputType="textPersonName"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- APELLIDOS -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_apellidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginTop="20dp"
+        android:text="Apellidos:"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_apellidos_empleado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+
+    <!-- ROL -->
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_rol"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,65 +72,88 @@
         android:layout_marginTop="20dp"
         android:text="Escoja el rol del Empleado:"/>
 
-     <EditText android:id="@+id/et_rol_empleado"
-    android:hint=" recepcionista, limpieza, mantenimiento "
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp" android:inputType="text" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_rol_empleado"
+            android:hint="recepcionista, limpieza, mantenimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- EMAIL -->
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:layout_marginTop="20dp"
         android:text="Correo Electrónico:"/>
-        <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email_empleado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-            android:inputType="textEmailAddress" />
-        <TextView
-            android:id="@+id/txt_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_marginTop="20dp"
-            android:text="Teléfono:"/>
-        <EditText
+
+    <!-- TELÉFONO -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginTop="20dp"
+        android:text="Teléfono:"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_telefono_empleado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+
+    <!-- BOTONES -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="25dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancelar"
+            android:text="CANCELAR"
+            android:backgroundTint="#B22222"
+            android:textColor="#FFF"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="25dp">
+            android:layout_marginEnd="10dp"/>
 
-            <Button
-                android:id="@+id/btn_cancelar"
-                android:text="CANCELAR"
-                android:backgroundTint="#B22222"
-                android:textColor="#FFF"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp" />
-
-            <Button
-                android:id="@+id/btn_guardar"
-                android:text="GUARDAR"
-                android:backgroundTint="#0D47A1"
-                android:textColor="#FFF"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp" />
-        </LinearLayout>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_guardar"
+            android:text="GUARDAR"
+            android:backgroundTint="#5561A2"
+            android:textColor="#FFF"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 
+</LinearLayout>

@@ -10,7 +10,7 @@
     android:padding="20dp"
     tools:context=".actividad.GestionEmpleadosActivity">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_gestion_empleados"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,15 +22,16 @@
         android:layout_marginTop="25dp"
         android:layout_marginBottom="20dp"/>
 
-    <ListView
-        android:id="@+id/lista_empleados"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_empleados"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/transparent"
-        android:dividerHeight="8dp"/>
+        android:dividerHeight="2dp"
+        tools:listitem="@layout/item_empleado"/>
 
-    <Button
+<com.google.android.material.button.MaterialButton
         android:id="@+id/btn_agregar_empleado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,8 +41,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/btn_volver_gestion_empleados"
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_volver_gestion_empleados"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VOLVER"

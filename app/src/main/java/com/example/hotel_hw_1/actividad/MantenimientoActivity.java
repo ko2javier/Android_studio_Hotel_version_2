@@ -15,12 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MantenimientoActivity extends AppCompatActivity {
 
     // defino variables.
-    private Button btn_consultar_editar_perfil_mmto,btn_consultar_tareas_pdtes_mmto_hotel,
+    private MaterialButton btn_consultar_editar_perfil_mmto,btn_consultar_tareas_pdtes_mmto_hotel,
             btn_consultar_Encuestas_mmto,boton_cerrar_sesion;
 
     @Override

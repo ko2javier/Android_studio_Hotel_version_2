@@ -1,18 +1,29 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="Theme.Hotel_Hw_1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Colores base -->
-        <item name="colorPrimary">#6A1B9A</item> <!-- morado elegante -->
-        <item name="colorPrimaryVariant">#4A148C</item>
+
+
+        <!-- PALETA -->
+        <item name="colorPrimary">@color/purple_500</item>
         <item name="colorOnPrimary">@android:color/white</item>
 
-        <item name="colorSecondary">#2E7D32</item> <!-- verde -->
+        <item name="colorSecondary">@color/teal_200</item>
         <item name="colorOnSecondary">@android:color/white</item>
 
-        <!-- Super importante -->
         <item name="colorSurface">@android:color/white</item>
         <item name="colorOnSurface">@android:color/black</item>
-        <!-- Super importante  <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>-->
+
+        <!-- CONTROLES -->
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/purple_500</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="colorControlHighlight">@color/teal_200</item>
+
+        <!-- FIX CRÍTICO -->
+        <item name="switchStyle">@style/Widget.MaterialComponents.CompoundButton.Switch</item>
+
+        <!-- TEXTINPUT -->
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+
 
     </style>
 </resources>

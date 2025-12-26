@@ -13,7 +13,7 @@
 
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/TextView_gerente"
 
         android:layout_width="wrap_content"
@@ -25,52 +25,51 @@
         android:textSize="20sp"
         android:textColor="#C32626"
         />
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_consultar_editar_perfil"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
         android:text="Consultar/Editar Perfil"
         android:padding="5dp"
 
         />
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_consultar_ocupacion_hotel"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
         android:text="Consultar Ocupación del Hotel"
         android:padding="5dp"
 
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_consultar_listado_huspedes"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
         android:text="Consultar Listado huespedes"
         android:padding="5dp"
 
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_consultar_tareas_pdtes"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
         android:text="Consultar Tareas Pedientes"
         android:padding="5dp"
@@ -80,43 +79,42 @@
 
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_consultar_encuestas_gerente"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
         android:text="Consultar Encuestas"
         android:padding="5dp"
 
         />
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_consultar_listado_empleados"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
         android:text="Consultar Listado empleados"
         android:padding="5dp"
 
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/boton_cerrar_sesion"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_marginTop="30dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#F8C537"
+        android:backgroundTint="#F8C537"
         android:text="Cerrar Sesión "
         android:textStyle="bold"
         android:padding="3dp"
-
         />
 
 

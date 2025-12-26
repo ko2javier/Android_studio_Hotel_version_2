@@ -16,24 +16,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class HuespedActivity extends AppCompatActivity {
+    private MaterialButton btn_consultar_perfil,btn_add_reservas,btn_check_reservas_done,
+            btn_realizar_encuestas, boton_cerrar_sesion, btn_solictar_limpieza;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_huesped_menu);
 
-        // Defino botones
 
-        Button btn_consultar_perfil= findViewById(R.id.btn_consultar_editar_perfil_huesped);
+         btn_consultar_perfil= findViewById(R.id.btn_consultar_editar_perfil_huesped);
 
-        Button btn_add_reservas = findViewById(R.id.btn_add_reservas_hotel_huesped);
-        Button btn_check_reservas_done= findViewById(R.id.btn_check_status_realizadas);
-        Button btn_realizar_encuestas= findViewById(R.id.btn_realizar_encuestas_al_hotel);
-        Button boton_cerrar_sesion= findViewById(R.id.boton_cerrar_sesion);
-        Button btn_solictar_limpieza= findViewById(R.id.btn_solictar_limpieza);
+         btn_add_reservas = findViewById(R.id.btn_add_reservas_hotel_huesped);
+         btn_check_reservas_done= findViewById(R.id.btn_check_status_realizadas);
+         btn_realizar_encuestas= findViewById(R.id.btn_realizar_encuestas_al_hotel);
+        boton_cerrar_sesion= findViewById(R.id.boton_cerrar_sesion);
+         btn_solictar_limpieza= findViewById(R.id.btn_solictar_limpieza);
 
         // Pongo a la escucha botones
         btn_consultar_perfil.setOnClickListener(v -> {

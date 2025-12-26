@@ -12,8 +12,7 @@
     tools:context=".actividad.Presentacion">
 
 
-
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/TextView_huesped"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,86 +23,82 @@
         android:textSize="20sp"
         android:textColor="#C32626"
         />
-
-    <Button
-        android:id="@+id/btn_consultar_editar_perfil_huesped"
+    <com.google.android.material.button.MaterialButton
+         android:id="@+id/btn_consultar_editar_perfil_huesped"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="50dp"
         android:text="Consultar/Editar Perfil"
         android:padding="5dp"
 
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_reservas_hotel_huesped"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="50dp"
         android:text="Adicionar Reservas al hotel"
         android:padding="5dp"
 
         />
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_check_status_realizadas"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="50dp"
         android:text="Chequear estado Reservas Hotel"
         android:padding="5dp"
 
         />
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_solictar_limpieza"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="50dp"
         android:text="Solicitar Tareas Adicionales"
         android:padding="5dp"
 
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_realizar_encuestas_al_hotel"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#9BD973"
+        android:backgroundTint="#9BD973"
         android:layout_marginTop="50dp"
         android:text="Realizar Encuestas"
         android:padding="5dp"
 
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/boton_cerrar_sesion"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
         android:layout_marginTop="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#F8C537"
+        android:backgroundTint="#9BD973"
         android:text="Cerrar Sesión "
         android:textStyle="bold"
         android:padding="3dp"
 
         />
-
-
-
 
 
 

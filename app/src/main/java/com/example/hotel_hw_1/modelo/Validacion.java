@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.*;
 
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 
 public class Validacion {

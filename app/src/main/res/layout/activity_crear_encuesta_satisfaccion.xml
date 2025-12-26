@@ -12,7 +12,7 @@
 
 
         <!-- Título -->
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_titulo_encuesta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
 
 
         <!-- Botón Enviar -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_enviar_encuesta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,15 +46,15 @@
             android:textStyle="bold"/>
 
 
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/btn_volver_encuesta"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="VOLVER"
+    android:backgroundTint="#1a759f"
+    android:textColor="#FFF"
+    android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/btn_volver_encuesta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="VOLVER"
-            android:backgroundTint="#1a759f"
-            android:textColor="#FFF"
-            android:textStyle="bold"/>
 
 
     </LinearLayout>

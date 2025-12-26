@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pantalla_reserva_aplicacion"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -7,7 +8,7 @@
     android:background="#FAF9E8"
     android:padding="30dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_titulo_pantalla_reserva_aplicacion"
         android:text="Pantalla Reserva Habitación:"
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         />
 
     <LinearLayout
@@ -29,7 +30,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_fecha_reserva"
             android:text="Fecha:"
             android:layout_width="wrap_content"
@@ -38,20 +39,31 @@
             android:textStyle="bold"
             android:layout_marginEnd="15dp"/>
 
-        <EditText
-            android:id="@+id/edit_fecha"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="DD-MM-YYYY"
-            android:focusable="false"
-            android:clickable="true"
-            android:padding="10dp"
-            android:layout_marginRight="20dp"/>
+
+            app:endIconMode="custom"
+           >   <!-- opcional -->
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_fecha"
+                android:hint="DD-MM-YYYY"
+                android:focusable="false"
+                android:clickable="true"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
     </LinearLayout>
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_disponibilidad_actual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +73,7 @@
         android:background="#E8F5E9"
         android:padding="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:elevation="2dp"
         android:textStyle="bold"
         android:gravity="center" />
@@ -73,9 +85,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="15dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_choose_planta"
             android:text="Elija Planta:"
             android:layout_width="wrap_content"
@@ -83,34 +95,54 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginEnd="15dp"/>
-        <Spinner
-            android:id="@+id/spinner_planta"
-            android:layout_width="0dp"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="30dp"
-             />
+            android:hint="Selecciona una planta"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spinner_planta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/et_nombre_huesped"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del huésped"
-        android:inputType="textPersonName"
-        android:visibility="gone"
-        android:layout_marginTop="5dp"/>
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_nombre_huesped"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del huésped"
+            android:inputType="textPersonName"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/et_apellidos_huesped"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Apellidos del huésped"
-        android:inputType="textEmailAddress"
-        android:visibility="gone"
-        android:layout_marginTop="5dp"/>
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_apellidos_huesped"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apellidos del huésped"
+            android:inputType="textEmailAddress"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_tipo_room"
         android:text="Elige tipo de habitación:"
         android:layout_width="match_parent"
@@ -118,7 +150,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="5dp"/>
 
     <RadioGroup
         android:id="@+id/radioGroupHabitacion"
@@ -126,25 +158,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rbSimple"
             android:text="Simple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"/>
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rbDoble"
             android:text="Doble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rbTriple"
             android:text="Triple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RadioGroup>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_servicios_adicionales"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -158,16 +190,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         >
-        <CheckBox
+
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_spa"
             android:text="Spa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
             />
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_parking"
             android:text="Parking"
             android:layout_width="wrap_content"
@@ -176,15 +209,15 @@
 
 
     </LinearLayout>
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_servicios_adicionales_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Servicios Adicionales/Pensión:"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
     <RadioGroup
         android:id="@+id/radiog_type_pension"
         android:layout_width="wrap_content"
@@ -192,13 +225,13 @@
 
         android:orientation="horizontal"
         >
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_media_pension"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1/2 Pensión"
             />
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/rb_pension_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -207,23 +240,22 @@
     </RadioGroup>
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_confirmar_reserva_flat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
         android:text="CONFIRMAR RESERVA"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#4CAF50"
         android:textColor="#FFF"/>
-
-    <Button
-        android:id="@+id/btn_volver_reserva_flat"
+<com.google.android.material.button.MaterialButton
+       android:id="@+id/btn_volver_reserva_flat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"
         android:text="VOLVER"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:backgroundTint="#0D47A1"
         android:textColor="#FFF"/>
 
