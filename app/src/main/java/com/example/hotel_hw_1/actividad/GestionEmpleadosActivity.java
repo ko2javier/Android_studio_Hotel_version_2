@@ -1,4 +1,9 @@
 package com.example.hotel_hw_1.actividad;
+/**
+ * Autor: K. Jabier O'Reilly
+ * Proyecto: Gestión de Hotel - Práctica 1ª Evaluación (PMDM 2025/2026)
+ *
+ */
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.EmpleadoAdapter;
 import com.example.hotel_hw_1.modelo.Empleado;
-import com.example.hotel_hw_1.repositorio.EmpleadoData;
+import com.example.hotel_hw_1.repositorio.EmpleadoRepository;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.database.DatabaseReference;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GestionEmpleadosActivity extends AppCompatActivity {
@@ -24,7 +31,6 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
     private MaterialButton btnAgregar, btnVolver;
     private EmpleadoAdapter adapter;
     private List<Empleado> listaEmpleados;
-    private DatabaseReference dbEmpleados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,30 +38,30 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_gestion_empleados);
 
-        // VIEWS
-        rv_empleados = findViewById(R.id.rv_empleados);
+          rv_empleados = findViewById(R.id.rv_empleados);
         btnAgregar = findViewById(R.id.btn_agregar_empleado);
         btnVolver = findViewById(R.id.btn_volver_gestion_empleados);
 
-        // RECYCLER
+        //  Logica del RECYCLER
+
         rv_empleados.setLayoutManager(new LinearLayoutManager(this));
 
-        // DATOS
-        listaEmpleados = EmpleadoData.getEmpleados();
+        listaEmpleados = new ArrayList<>();
+/**
+ * Implemento  los metodos de la interfaz del Recicler
+ * para hacerlo mas locol creo un objeto del tipo de la interfaz !!!!
+ */
 
-        // ADAPTER
-        adapter = new EmpleadoAdapter(listaEmpleados,
+        adapter = new EmpleadoAdapter( listaEmpleados,
                 new EmpleadoAdapter.OnEmpleadoClickListener() {
 
                     @Override
                     public void onEditarClick(Empleado empleado) {
-                        int position = listaEmpleados.indexOf(empleado);
-
                         Intent intent = new Intent(
                                 GestionEmpleadosActivity.this,
                                 EmpleadoFormActivity.class
                         );
-                        intent.putExtra("posicion", position);
+                        intent.putExtra("ID_EMPLEADO", empleado.getId());
                         startActivity(intent);
                     }
 
@@ -63,11 +69,32 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
                     public void onBorrarClick(Empleado empleado) {
                         mostrarDialogoEliminar(empleado);
                     }
-                });
+                }
+        );
 
         rv_empleados.setAdapter(adapter);
 
+        // =========================
+        // CARGAR EMPLEADOS DESDE REPOSITORY (FIREBASE)
+        // =========================
+        EmpleadoRepository.obtenerEmpleados(new EmpleadoRepository.EmpleadosCallback() {
+            @Override
+            public void onSuccess(List<Empleado> empleados) {
+                listaEmpleados.clear();
+                listaEmpleados.addAll(empleados);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(DatabaseError error) {
+                Snackbar.make(rv_empleados, "Error en lectura: " + error.getMessage(),
+                        Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        // =========================
         // BOTONES
+        // =========================
         btnAgregar.setOnClickListener(v ->
                 startActivity(new Intent(this, EmpleadoFormActivity.class))
         );
@@ -75,24 +102,16 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
         btnVolver.setOnClickListener(v -> finish());
     }
 
-    // REFRESCAR LISTA AL VOLVER DEL FORM
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    //  DIÁLOGO ELIMINAR
+    // =========================
+    // DIÁLOGO ELIMINAR
+    // =========================
     private void mostrarDialogoEliminar(Empleado empleado) {
         new AlertDialog.Builder(this)
                 .setTitle("Eliminar empleado")
                 .setMessage("¿Seguro que desea eliminar a " + empleado.getNombre() + "?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    EmpleadoData.eliminarEmpleado(empleado);
-                    adapter.notifyDataSetChanged();
-                })
+                .setPositiveButton("Sí", (dialog, which) ->
+                        EmpleadoRepository.eliminarEmpleado(empleado.getId())
+                )
                 .setNegativeButton("No", null)
                 .show();
     }

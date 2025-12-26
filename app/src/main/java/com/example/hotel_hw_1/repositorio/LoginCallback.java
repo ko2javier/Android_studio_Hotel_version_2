@@ -10,7 +10,9 @@ public interface LoginCallback {
     /**
      *Defino la interface porque Firebase es asincrono
      * asi que espero la respuesta de mi peticion
-     * y con la interface recupero el valor
+     * y con la interface recupero el valor.
+     *
+     * Esto es para el login de los usuarios!!
      */
     void onSuccess(Usuario usuario);
     void onError(String mensaje);

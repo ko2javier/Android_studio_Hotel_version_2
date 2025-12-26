@@ -31,12 +31,25 @@ public class EmpleadoRepository {
     /**
      * Este interface es importante porque Firebase es asincrono
      * por tanto hay que esperar hasta que de la respuesta! o el error !!
+     * Para el metodo de Leer la lista completa !!!
      */
 
     public interface EmpleadosCallback {
         void onSuccess(List<Empleado> empleados);
         void onError(DatabaseError error);
     }
+
+    /**
+     * Esta interface es para la escritura y actualizacion
+     * de datos, no devuelve datos a diferencia de la anterior
+     * que es para devolver la lista o Error
+     * Metodos (update, Create, Delete)
+     */
+    public interface ResultadoCallback {
+        void onSuccess();
+        void onError(DatabaseError error);
+    }
+
 
     public static void obtenerEmpleados(EmpleadosCallback callback) {
 
@@ -65,9 +78,15 @@ public class EmpleadoRepository {
     }
 
     // AGREGAR
-    public static void agregarEmpleado(Empleado e) {
-        dbEmpleados.push().setValue(e);
+    public static void crearEmpleado(Empleado e, ResultadoCallback callback) {
+        dbEmpleados.push()
+                .setValue(e)
+                .addOnSuccessListener(unused -> callback.onSuccess())
+                .addOnFailureListener(error ->
+                        callback.onError(DatabaseError.fromException(error))
+                );
     }
+
 
     // ELIMINAR
     public static void eliminarEmpleado(String idEmpleado) {
@@ -75,10 +94,23 @@ public class EmpleadoRepository {
     }
 
     // Update
+    public static void actualizarEmpleado(Empleado e, ResultadoCallback callback) {
+        if (e.getId() == null) {
+            callback.onError(DatabaseError.fromException(
+                    new IllegalArgumentException("ID nulo")
+            ));
+            return;
+        }
 
-    public static void actualizarEmpleado(String id, Empleado nuevo) {
-        dbEmpleados.child(id).setValue(nuevo);
+        dbEmpleados.child(e.getId())
+                .setValue(e)
+                .addOnSuccessListener(unused -> callback.onSuccess())
+                .addOnFailureListener(error ->
+                        callback.onError(DatabaseError.fromException(error))
+                );
     }
+
+
 
     // ==================================================
     // MÉTODO CLAVE QUE YA USA LA APP
@@ -93,9 +125,7 @@ public class EmpleadoRepository {
             }
         }
 
-        return nombres_total.isEmpty()
-                ? new String[0]
-                : nombres_total.split(";");
+        return nombres_total.isEmpty() ? new String[0] : nombres_total.split(";");
     }
 
 
