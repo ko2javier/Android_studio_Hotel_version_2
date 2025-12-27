@@ -5,8 +5,8 @@ package com.example.hotel_hw_1.repositorio;
  * Proyecto: Gestión de Hotel - Práctica 1ª Evaluación (PMDM 2025/2026)
  */
 
-
 import androidx.annotation.NonNull;
+import android.util.Log;
 
 import com.example.hotel_hw_1.modelo.Empleado;
 import com.google.firebase.database.*;
@@ -16,117 +16,112 @@ import java.util.List;
 
 public class EmpleadoRepository {
 
-    private static final List<Empleado> listaEmpleados = new ArrayList<>();
+   // 1- corazon de mi clase, en esta lista viven los datos de Firebase y se actualizan!!
+    private static final List<Empleado> listaCache = new ArrayList<>();
 
-    // REFERENCIA FIREBASE
+    // Referencia a la base de datos
     private static final DatabaseReference dbEmpleados =
             FirebaseDatabase
                     .getInstance("https://sanviatorprimerproyecto-default-rtdb.firebaseio.com")
                     .getReference("empleados");
 
-
-
-    // OBTENER EMPLEADOS
-
-    /**
-     * Este interface es importante porque Firebase es asincrono
-     * por tanto hay que esperar hasta que de la respuesta! o el error !!
-     * Para el metodo de Leer la lista completa !!!
-     */
-
-    public interface EmpleadosCallback {
-        void onSuccess(List<Empleado> empleados);
-        void onError(DatabaseError error);
-    }
-
-    /**
-     * Esta interface es para la escritura y actualizacion
-     * de datos, no devuelve datos a diferencia de la anterior
-     * que es para devolver la lista o Error
-     * Metodos (update, Create, Delete)
-     */
-    public interface ResultadoCallback {
-        void onSuccess();
-        void onError(DatabaseError error);
+    // Interface como respaldo a las operacioes de escritura!!
+    public interface CallbackEscritura {
+        void onResultado(boolean exito, String mensaje);
     }
 
 
-    public static void obtenerEmpleados(EmpleadosCallback callback) {
-
+    /**
+     *Este metodo es el corazon y cerebro, si cambio algo en
+     * firebase se actualiza mi lista. De este modo logro la sincronia automatica.
+     */
+    public static void inicializarListener() {
         dbEmpleados.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                List<Empleado> lista = new ArrayList<>();
+                listaCache.clear(); // Limpiamos la caché vieja
 
                 for (DataSnapshot empSnapshot : snapshot.getChildren()) {
                     Empleado e = empSnapshot.getValue(Empleado.class);
                     if (e != null) {
-                        e.setId(empSnapshot.getKey()); // IMPORTANTE
-                        lista.add(e);
+                        e.setId(empSnapshot.getKey());
+                        listaCache.add(e);
                     }
                 }
+                Log.d("REPO", "Datos actualizados. Total empleados: " + listaCache.size());
 
-                callback.onSuccess(lista);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                callback.onError(error);
+                Log.e("REPO", "Error escuchando Firebase: " + error.getMessage());
             }
         });
     }
 
-    // AGREGAR
-    public static void crearEmpleado(Empleado e, ResultadoCallback callback) {
-        dbEmpleados.push()
-                .setValue(e)
-                .addOnSuccessListener(unused -> callback.onSuccess())
-                .addOnFailureListener(error ->
-                        callback.onError(DatabaseError.fromException(error))
-                );
+    // 3- Lectura asincrona!!!
+    public static List<Empleado> getListaLocal() {
+        // Devolvemos una copia para proteger la lista original
+        return new ArrayList<>(listaCache);
+    }
+
+    public static Empleado getEmpleadoPorId(String id) {
+        for (Empleado e : listaCache) {
+            if (e.getId().equals(id)) return e;
+        }
+        return null;
     }
 
 
-    // ELIMINAR
-    public static void eliminarEmpleado(String idEmpleado) {
-        dbEmpleados.child(idEmpleado).removeValue();
-    }
+    // 4. ESCRITURA (CREATE / UPDATE / DELETE) Firebase dispara el listener de arriba
 
-    // Update
-    public static void actualizarEmpleado(Empleado e, ResultadoCallback callback) {
-        if (e.getId() == null) {
-            callback.onError(DatabaseError.fromException(
-                    new IllegalArgumentException("ID nulo")
-            ));
-            return;
+      public static void guardarEmpleado(Empleado e, CallbackEscritura callback) {
+        DatabaseReference ref;
+
+        // Si no tiene ID, es NUEVO (Create). Si tiene, es UPDATE.
+        if (e.getId() == null || e.getId().isEmpty()) {
+            ref = dbEmpleados.push(); // Crea ID nuevo
+        } else {
+            ref = dbEmpleados.child(e.getId()); // Usa ID existente
         }
 
-        dbEmpleados.child(e.getId())
-                .setValue(e)
-                .addOnSuccessListener(unused -> callback.onSuccess())
-                .addOnFailureListener(error ->
-                        callback.onError(DatabaseError.fromException(error))
-                );
+        ref.setValue(e)
+                .addOnSuccessListener(unused -> {
+                    if(callback != null) callback.onResultado(true, "Guardado correctamente");
+                })
+                .addOnFailureListener(error -> {
+                    if(callback != null) callback.onResultado(false, error.getMessage());
+                });
+    }
+
+    public static void eliminarEmpleado(String idEmpleado, CallbackEscritura callback) {
+        dbEmpleados.child(idEmpleado).removeValue()
+                .addOnSuccessListener(unused -> {
+                    if(callback != null) callback.onResultado(true, "Eliminado");
+                })
+                .addOnFailureListener(e -> {
+                    if(callback != null) callback.onResultado(false, e.getMessage());
+                });
     }
 
 
+    // Metodo de filtrado ahora funcionan de manera sincrona!!!
 
-    // ==================================================
-    // MÉTODO CLAVE QUE YA USA LA APP
-    // ==================================================
+    /*
+     * Con este metodo garatizo entregar una lista de nombres
+     * segun el rol que ocupan
+     * asi puedo asignar a quien sea segun su especialidad
+     * */
     public static String[] getNombresPorRol(String rol) {
-
         String nombres_total = "";
 
-        for (Empleado e : listaEmpleados) {
+        for (Empleado e : listaCache) {
             if (e.getRol().equalsIgnoreCase(rol)) {
                 nombres_total += e.getNombre() + " " + e.getApellidos() + ";";
             }
         }
-
-        return nombres_total.isEmpty() ? new String[0] : nombres_total.split(";");
+        // Dividimos los nombres en un array
+        String[] nombres = nombres_total.split(";");
+        return nombres;
     }
-
-
 }

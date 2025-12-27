@@ -20,6 +20,7 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.repositorio.UsuarioData;
 import com.example.hotel_hw_1.modelo.Validacion;
+import com.example.hotel_hw_1.repositorio.UsuarioRepository;
 import com.google.android.material.button.MaterialButton;
 //import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.snackbar.Snackbar;
@@ -73,9 +74,29 @@ public class Pantalla_Registro extends AppCompatActivity {
                 et_nombre.getText().toString().trim(),
                 et_phone.getText().toString().trim()
         );
+        // 1. Llamo al metodo del repositorio y instancio la interface asi evito tener que implementarla arriba
+        UsuarioRepository.registrarUsuario(this, nuevo, new UsuarioRepository.LoginCallback() {
+            @Override
+            public void onSuccess(Usuario usuario) {
+                // ¡BINGO! Aquí es donde confirmamos que todo salió bien
+                Snackbar.make(v, "Usuario registrado con éxito", Snackbar.LENGTH_LONG).show();
 
-        UsuarioData.addUsuario(nuevo);
+                // Esperar un segundo y cerrar la pantalla para mostrar mensaje!!
+                v.postDelayed(() -> {
+                    Intent intent = new Intent(Pantalla_Registro.this, Pantalla_Inicio.class);
+                    startActivity(intent);
+                    finish();
+                        }, 1500);
+            }
+            @Override
+            public void onError(String mensaje) {
+                // Si algo falló (correo repetido, sin internet, etc.)
+                Snackbar.make(v, "Error: " + mensaje, Snackbar.LENGTH_LONG).show();
+            }
+        });
 
+        //UsuarioData.addUsuario(nuevo);
+        /*
         Snackbar.make(v, " Usuario registrado con éxito", Snackbar.LENGTH_LONG).show();
 
         // Vuelve al inicio tras breve pausa
@@ -83,7 +104,7 @@ public class Pantalla_Registro extends AppCompatActivity {
             Intent intent = new Intent(Pantalla_Registro.this, Pantalla_Inicio.class);
             startActivity(intent);
             finish();
-        }, 1500);
+        }, 1500);*/
     }
 
     /* metodo para validar todos los campos del registro

@@ -23,6 +23,8 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.dto.AppDatabase;
 import com.example.hotel_hw_1.dto.UsuarioDao;
 import com.example.hotel_hw_1.dto.UsuarioEntity;
+import com.example.hotel_hw_1.repositorio.EmpleadoRepository;
+import com.example.hotel_hw_1.repositorio.UsuarioRepository;
 
 public class Presentacion extends AppCompatActivity {
 
@@ -33,6 +35,8 @@ public class Presentacion extends AppCompatActivity {
         setContentView(R.layout.activity_presentacion);
         // inserto los usuarios a pelo!!
         insertarUsuariosIniciales();
+
+        iniciar_repositorios();
         // Espera 3 segundos y luego abre la segunda actividad
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -43,6 +47,12 @@ public class Presentacion extends AppCompatActivity {
             }
         }, 3000); // 3000 ms = 3 segundos
     }
+    /*Carga inicial de todos los repositorios  que tengo en Firebase */
+    private void iniciar_repositorios(){
+        EmpleadoRepository.inicializarListener();
+        UsuarioRepository.inicializarListener();
+    }
+    /*Cargo los datos inciales en la tabla sqlite si es la primera vez*/
     private void insertarUsuariosIniciales() {
         UsuarioDao dao = AppDatabase.getInstance(this).usuarioDao();
 

@@ -26,6 +26,9 @@ public class Tarea {
         this.asignadaA = "Sin asignar";
     }
 
+    public Tarea() {
+    }
+
     // Getters y Setters
     public String getTipoTarea() { return tipoTarea; }
     public String getPlanta() { return planta; }

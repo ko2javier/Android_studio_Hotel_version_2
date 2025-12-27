@@ -8,6 +8,8 @@ package com.example.hotel_hw_1.actividad;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,23 +40,17 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_gestion_empleados);
 
-          rv_empleados = findViewById(R.id.rv_empleados);
+        rv_empleados = findViewById(R.id.rv_empleados);
         btnAgregar = findViewById(R.id.btn_agregar_empleado);
         btnVolver = findViewById(R.id.btn_volver_gestion_empleados);
 
-        //  Logica del RECYCLER
-
+      //condiguracion del Recicler !!
         rv_empleados.setLayoutManager(new LinearLayoutManager(this));
 
         listaEmpleados = new ArrayList<>();
-/**
- * Implemento  los metodos de la interfaz del Recicler
- * para hacerlo mas locol creo un objeto del tipo de la interfaz !!!!
- */
 
-        adapter = new EmpleadoAdapter( listaEmpleados,
+        adapter = new EmpleadoAdapter(listaEmpleados,
                 new EmpleadoAdapter.OnEmpleadoClickListener() {
-
                     @Override
                     public void onEditarClick(Empleado empleado) {
                         Intent intent = new Intent(
@@ -74,27 +70,14 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
 
         rv_empleados.setAdapter(adapter);
 
-        // =========================
-        // CARGAR EMPLEADOS DESDE REPOSITORY (FIREBASE)
-        // =========================
-        EmpleadoRepository.obtenerEmpleados(new EmpleadoRepository.EmpleadosCallback() {
-            @Override
-            public void onSuccess(List<Empleado> empleados) {
-                listaEmpleados.clear();
-                listaEmpleados.addAll(empleados);
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onError(DatabaseError error) {
-                Snackbar.make(rv_empleados, "Error en lectura: " + error.getMessage(),
-                        Snackbar.LENGTH_LONG).show();
-            }
-        });
+        // 1. Iniciamos la escucha en Firebase (por si no se hizo en el Main)
+        EmpleadoRepository.inicializarListener();
 
-        // =========================
-        // BOTONES
-        // =========================
+        // 2. Cargamos lo que haya en memoria actualmente
+        actualizarVista();
+
+
         btnAgregar.setOnClickListener(v ->
                 startActivity(new Intent(this, EmpleadoFormActivity.class))
         );
@@ -102,16 +85,47 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
         btnVolver.setOnClickListener(v -> finish());
     }
 
-    // =========================
-    // DIÁLOGO ELIMINAR
-    // =========================
+    /**
+     * IMPORTANTE: Al usar un sistema de caché, cuando volvemos de
+     * crear/editar un empleado, onResume se ejecuta.
+     * Aprovechamos para refrescar la lista visualmente.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        actualizarVista();
+    }
+
+    // Método auxiliar para traer los datos de la caché al adaptador
+    private void actualizarVista() {
+        List<Empleado> datosCache = EmpleadoRepository.getListaLocal();
+        listaEmpleados.clear();
+        listaEmpleados.addAll(datosCache);
+        adapter.notifyDataSetChanged();
+    }
+
+
     private void mostrarDialogoEliminar(Empleado empleado) {
         new AlertDialog.Builder(this)
                 .setTitle("Eliminar empleado")
                 .setMessage("¿Seguro que desea eliminar a " + empleado.getNombre() + "?")
-                .setPositiveButton("Sí", (dialog, which) ->
-                        EmpleadoRepository.eliminarEmpleado(empleado.getId())
-                )
+                .setPositiveButton("Sí", (dialog, which) -> {
+
+                    // Llamada al método delete del repositorio nuevo con CallbackEscritura
+                    EmpleadoRepository.eliminarEmpleado(empleado.getId(),
+                            new EmpleadoRepository.CallbackEscritura() {
+                                @Override
+                                public void onResultado(boolean exito, String mensaje) {
+                                    if (exito) {
+                                        Snackbar.make(rv_empleados, "Empleado eliminado", Snackbar.LENGTH_SHORT).show();
+                                        // Firebase actualiza la caché solo, nosotros solo refrescamos la vista
+                                        actualizarVista();
+                                    } else {
+                                        Snackbar.make(rv_empleados, "Error: " + mensaje, Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                })
                 .setNegativeButton("No", null)
                 .show();
     }

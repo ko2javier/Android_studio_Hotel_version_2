@@ -37,7 +37,6 @@ public class EmpleadoFormActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_empleado_form);
 
-        // VIEWS
         etNombre = findViewById(R.id.et_nombre_empleado);
         etApellidos = findViewById(R.id.et_apellidos_empleado);
         etRol = findViewById(R.id.et_rol_empleado);
@@ -47,7 +46,7 @@ public class EmpleadoFormActivity extends AppCompatActivity {
         btnGuardar = findViewById(R.id.btn_guardar);
         btnCancelar = findViewById(R.id.btn_cancelar);
 
-        // ====== MODO EDITAR (si llega ID_EMPLEADO) ======
+        //  MODO EDITAR (si llega ID_EMPLEADO)
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey("ID_EMPLEADO")) {
             idEmpleadoEditar = extras.getString("ID_EMPLEADO");
@@ -56,36 +55,16 @@ public class EmpleadoFormActivity extends AppCompatActivity {
                 cargarEmpleadoDesdeLista(idEmpleadoEditar);
             }
         }
-
-        btnGuardar.setOnClickListener(this::guardarEmpleado);
+        btnGuardar.setOnClickListener(v->{
+            guardarEmpleado(v);
+        });
         btnCancelar.setOnClickListener(v -> finish());
     }
 
     private void cargarEmpleadoDesdeLista(String idEmpleado) {
+        empleadoActual= EmpleadoRepository.getEmpleadoPorId(idEmpleado);
+        rellenarCampos();
 
-        EmpleadoRepository.obtenerEmpleados(
-                new EmpleadoRepository.EmpleadosCallback() {
-                    @Override
-                    public void onSuccess(List<Empleado> empleados) {
-                        for (Empleado e : empleados) {
-                            if (e.getId().equals(idEmpleado)) {
-                                empleadoActual = e;
-                                rellenarCampos();
-                                return;
-                            }
-                        }
-
-                        Snackbar.make(etNombre, "Empleado no encontrado", Snackbar.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(DatabaseError error) {
-                        Snackbar.make(etNombre, "Error al cargar empleado", Snackbar.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }
-        );
     }
 
 
@@ -143,23 +122,23 @@ public class EmpleadoFormActivity extends AppCompatActivity {
             return;
         }
 
-        // ====== GUARDAR / ACTUALIZAR EN FIREBASE ======
+        // GUARDAR / ACTUALIZAR EN FIREBASE
         if (modoEditar) {
 
             // Si por lo que sea no cargó empleadoActual, lo creamos desde los campos
             Empleado actualizado = new Empleado(nombre, apellidos, rol, email, telefono);
             actualizado.setId(idEmpleadoEditar);
 
-            EmpleadoRepository.actualizarEmpleado(actualizado, new EmpleadoRepository.ResultadoCallback() {
+        // Usamos guardarEmpleado (sirve para crear y actualizar)
+            EmpleadoRepository.guardarEmpleado(actualizado, new EmpleadoRepository.CallbackEscritura() {
                 @Override
-                public void onSuccess() {
-                    Snackbar.make(v, "Empleado actualizado correctamente", Snackbar.LENGTH_SHORT).show();
-                    finish();
-                }
-
-                @Override
-                public void onError(DatabaseError error) {
-                    Snackbar.make(v, "Error al actualizar empleado", Snackbar.LENGTH_SHORT).show();
+                public void onResultado(boolean exito, String mensaje) {
+                    if (exito) {
+                        Snackbar.make(v, "Empleado actualizado correctamente", Snackbar.LENGTH_SHORT).show();
+                        finish(); // Cierra la actividad y vuelve a la lista
+                    } else {
+                        Snackbar.make(v, "Error al actualizar: " + mensaje, Snackbar.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -167,18 +146,18 @@ public class EmpleadoFormActivity extends AppCompatActivity {
 
             Empleado nuevo = new Empleado(nombre, apellidos, rol, email, telefono);
 
-            EmpleadoRepository.crearEmpleado(nuevo, new EmpleadoRepository.ResultadoCallback() {
+            EmpleadoRepository.guardarEmpleado(nuevo, new EmpleadoRepository.CallbackEscritura() {
                 @Override
-                public void onSuccess() {
-                    Snackbar.make(v, "Empleado agregado correctamente", Snackbar.LENGTH_SHORT).show();
-                    finish();
-                }
-
-                @Override
-                public void onError(DatabaseError error) {
-                    Snackbar.make(v, "Error al guardar empleado", Snackbar.LENGTH_SHORT).show();
+                public void onResultado(boolean exito, String mensaje) {
+                    if (exito) {
+                        Snackbar.make(v, "Empleado agregado correctamente", Snackbar.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        // Muestro el mensaje de error espesifico de Firebase!!!!
+                        Snackbar.make(v, "Error al guardar: " + mensaje, Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             });
-        }
+        }//fin del else
     }
 }

@@ -13,19 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmpleadoData {
-
+/*
     private static final List<Empleado> listaEmpleados = new ArrayList<>();
 
-    static {
-        // Lista inicial (incluyendo los que también existen en UsuarioData)
-        listaEmpleados.add(new Empleado("Julia", "Pérez", "Recepción", "recepcion@hotel.com", "600123456"));
-        listaEmpleados.add(new Empleado("Raúl", "García", "Mantenimiento", "mmto@hotel.com", "600654321"));
-        listaEmpleados.add(new Empleado("Marta", "López", "Limpieza", "limpieza@hotel.com", "600987654"));
 
-        // Algunos nuevos para rellenar el listado
-        listaEmpleados.add(new Empleado("Laura", "Ruiz", "Limpieza", "laura.ruiz@hotel.com", "611223344"));
-        listaEmpleados.add(new Empleado("Carlos", "Torres", "Mantenimiento", "carlos.torres@hotel.com", "622334455"));
-    }
 
     public static List<Empleado> getEmpleados() {
         return listaEmpleados;
@@ -57,7 +48,7 @@ public class EmpleadoData {
     * segun el rol que ocupan
     * asi puedo asignar a quien sea segun su especialidad
     * */
-
+/*
     public static String[] getNombresPorRol(String rol) {
         String nombres_total = "";
 
@@ -70,6 +61,6 @@ public class EmpleadoData {
         String[] nombres = nombres_total.split(";");
         return nombres;
     }
-
+*/
 
 }

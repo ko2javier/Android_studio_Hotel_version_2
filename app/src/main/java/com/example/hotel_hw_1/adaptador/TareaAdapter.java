@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.repositorio.EmpleadoData;
 import com.example.hotel_hw_1.modelo.Tarea;
+import com.example.hotel_hw_1.repositorio.EmpleadoRepository;
 import com.example.hotel_hw_1.repositorio.TareaData;
 import com.example.hotel_hw_1.modelo.Usuario;
 
@@ -102,8 +103,8 @@ public class TareaAdapter extends ArrayAdapter<Tarea> {
         String tipo = tarea.getTipoTarea();
 
         // Obtenemos los nombres de empleados con ese rol (limpieza o mantenimiento) de TareaData
-        String[] empleadosPorRol = EmpleadoData.getNombresPorRol(tipo);
 
+        String[] empleadosPorRol= EmpleadoRepository.getNombresPorRol(tipo);
 
         // Mostramos el diálogo con la lista de empleados disponibles
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

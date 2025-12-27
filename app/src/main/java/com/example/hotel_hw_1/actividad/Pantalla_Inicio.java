@@ -24,6 +24,7 @@ import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.modelo.Validacion;
 import com.example.hotel_hw_1.repositorio.LoginCallback;
 import com.example.hotel_hw_1.repositorio.UsuarioData;
+import com.example.hotel_hw_1.repositorio.UsuarioRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -121,7 +122,7 @@ public class Pantalla_Inicio extends AppCompatActivity {
          * Aquí se decide qué hacer en caso de éxito o error sin acoplar la Activity.
          */
 
-        UsuarioData.loginRealtime( this, campo_user, campo_pass, new LoginCallback() {
+        /*UsuarioData.loginRealtime( this, campo_user, campo_pass, new LoginCallback() {
 
                     @Override
                     public void onSuccess(Usuario usuario) {
@@ -144,6 +145,25 @@ public class Pantalla_Inicio extends AppCompatActivity {
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 }
-        );
+        );*/
+
+        UsuarioRepository.login(this, campo_user, campo_pass, new UsuarioRepository.LoginCallback() {
+            @Override
+            public void onSuccess(Usuario usuario) {
+                Usuario.setInstance(usuario); // Guardamos sesión
+
+                Log.d("LOGIN", "Entrando como: " + usuario.getTipo_usuario());
+
+                // Redirigir según tipo
+                Intent intent = usuario.obtenerPantalla(Pantalla_Inicio.this);
+                startActivity(intent);
+                finish(); // Cerramos login para que no vuelva atrás
+            }
+
+            @Override
+            public void onError(String mensaje) {
+                Snackbar.make(v, mensaje, Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 }
