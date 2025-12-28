@@ -120,7 +120,7 @@ public class HuespedRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    // MÉTODO DE ESCRITURA CORREGIDO
+    // Crear huesped ok!!
     public static void crearHuesped(Huesped huesped, HuespedCallback callback) {
         dbHuespedes.push().setValue(huesped)
                 .addOnSuccessListener(v -> callback.onSuccess("Huésped registrado correctamente"))

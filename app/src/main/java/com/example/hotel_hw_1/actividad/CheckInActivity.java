@@ -22,6 +22,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CheckInActivity extends AppCompatActivity {
 
     private TextInputEditText etNombre, etApellidos, etTelefono;
@@ -32,10 +35,11 @@ public class CheckInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
 
-        // 1. RECIBIR EL NÚMERO DE HABITACIÓN (El Intent)
+        // 1. Recogemos el Intent de la otra actividad
         numeroHabitacion = getIntent().getStringExtra("EXTRA_HABITACION");
         if (numeroHabitacion == null) {
-            Toast.makeText(this, "Error: No se seleccionó habitación", Toast.LENGTH_SHORT).show();
+            Snackbar.make(CheckInActivity.this.getCurrentFocus(), "Error: No se seleccionó habitación", Snackbar.LENGTH_LONG)
+                            .show();
             finish();
             return;
         }
@@ -97,7 +101,9 @@ public class CheckInActivity extends AppCompatActivity {
         String apellidos = etApellidos.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
         String nombreCompleto = nombre + " " + apellidos;
-        Huesped huesped = new Huesped(nombre, apellidos, telefono,numeroHabitacion,  true);
+        SimpleDateFormat df= new SimpleDateFormat("dd-MM-yyyy");
+        String fechaHoy = df.format(new Date());
+        Huesped huesped = new Huesped(nombre, apellidos, telefono,numeroHabitacion, fechaHoy);
 
         // B. GUARDADO EN CADENA (Militar: Primero Huésped -> Luego Habitación)
         HuespedRepository.crearHuesped (huesped, new HuespedRepository.HuespedCallback() {

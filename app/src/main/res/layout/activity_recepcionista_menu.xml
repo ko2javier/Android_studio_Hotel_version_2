@@ -79,7 +79,18 @@
         android:layout_gravity="center"
         android:backgroundTint="#9BD973"
         android:layout_marginTop="30dp"
-        android:text=" Realizar Entradas y Salidas"
+        android:text=" Realizar Salidas"
+        android:padding="15dp"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_gestionar_check_in"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#9BD973"
+        android:layout_marginTop="30dp"
+        android:text=" Realizar Entradas"
         android:padding="15dp"
         />
 

@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class RecepcionistaActivity extends AppCompatActivity {
     private MaterialButton btn_consultar_editar_perfil_recp,btn_consultar_ocupacion_hotel_recp,
             btn_consultar_listado_huspedes_recp,btn_add_reservas_hotel,btn_gestionar_check_in_out,
-            btn_consultar_encuestas,boton_cerrar_sesion;
+            btn_consultar_encuestas,boton_cerrar_sesion, btn_gestionar_check_in;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class RecepcionistaActivity extends AppCompatActivity {
          btn_gestionar_check_in_out= findViewById(R.id.btn_gestionar_check_in_out);
          btn_consultar_encuestas= findViewById(R.id.btn_consultar_Encuestas);
          boton_cerrar_sesion = findViewById(R.id.boton_cerrar_sesion);
+        btn_gestionar_check_in= findViewById(R.id.btn_gestionar_check_in);
 
         btn_consultar_editar_perfil_recp.setOnClickListener(v->
         {
@@ -87,6 +88,10 @@ public class RecepcionistaActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        btn_gestionar_check_in.setOnClickListener(v->{
+            Intent i= new Intent(RecepcionistaActivity.this, Consultar_Ocupacion_Hotel.class);
+            startActivity(i);
+        });
 
 
     }
