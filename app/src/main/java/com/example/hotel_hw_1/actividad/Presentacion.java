@@ -24,6 +24,7 @@ import com.example.hotel_hw_1.dto.AppDatabase;
 import com.example.hotel_hw_1.dto.UsuarioDao;
 import com.example.hotel_hw_1.dto.UsuarioEntity;
 import com.example.hotel_hw_1.repositorio.EmpleadoRepository;
+import com.example.hotel_hw_1.repositorio.HabitacionRepository;
 import com.example.hotel_hw_1.repositorio.HuespedRepository;
 import com.example.hotel_hw_1.repositorio.TareaRepository;
 import com.example.hotel_hw_1.repositorio.UsuarioRepository;
@@ -55,6 +56,7 @@ public class Presentacion extends AppCompatActivity {
         UsuarioRepository.inicializarListener();
         TareaRepository.inicializarListener();
         HuespedRepository.inicializarListener();
+        HabitacionRepository.inicializarListener();
     }
     /*Cargo los datos inciales en la tabla sqlite si es la primera vez*/
     private void insertarUsuariosIniciales() {

@@ -1,55 +1,49 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/consultar_ocupacion_hotel"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAF9E8"
-    android:padding="50dp"
-    >
+    android:padding="20dp"> <com.google.android.material.textview.MaterialTextView
+    android:id="@+id/txt_titulo_pantalla_ocupacion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Disponibilidad del Hotel"
+    android:textStyle="bold"
+    android:textColor="#AB1F1F"
+    android:textSize="22sp"
+    android:layout_marginBottom="20dp"
+    android:gravity="center_horizontal" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_titulo_pantalla_ocupacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Disponiblidad del Hotel"
-        android:textStyle="bold"
-        android:textColor="#AB1F1F"
-        android:textSize="20sp"
-        android:layout_marginBottom="25dp" />
-
-    <ListView
-        android:id="@+id/listaPlantas"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerOcupacion"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-
-        />
+        android:scrollbars="vertical" />
 
     <com.google.android.material.textview.MaterialTextView
-    android:id="@+id/txt_ocupacion_total"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Ocupación total: 456 / 500 habitaciones"
-    android:textColor="#2E8B57"
-    android:textStyle="bold"
-    android:textSize="18sp"
-    android:layout_marginTop="16dp"
-    android:gravity="center" />
+        android:id="@+id/txt_ocupacion_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ocupación total: 0 / 500 habitaciones"
+        android:textColor="#2E8B57"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:gravity="center" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_volver"
+        android:id="@+id/btn_volver_ocupacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#5393C7"
-        android:padding="5dp"
-        android:text="volver"
-        android:textColor="@color/white"/>
-
-
+        android:layout_marginTop="15dp"
+        app:backgroundTint="#5393C7"
+        android:text="Volver"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
 
 </LinearLayout>
