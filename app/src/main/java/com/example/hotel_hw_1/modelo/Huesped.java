@@ -26,6 +26,13 @@ public class Huesped implements Serializable {
         this.fechaEntrada = fechaEntrada;
         this.checkInActivo = true; // Por defecto entra como hospedado
     }
+    public Huesped(String nombre, String apellidos, String telefono, String habitacion, boolean checkInActivo) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.habitacion = habitacion;
+        this.checkInActivo = true; //
+    }
 
     public Huesped() {
     }

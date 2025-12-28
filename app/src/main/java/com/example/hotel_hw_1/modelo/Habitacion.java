@@ -15,12 +15,23 @@ public class Habitacion {
     private String mantenimiento; // "", "Pendiente", "Asignado"
     private String fechaReserva;
     private String serviciosExtra;
+    private String nombreHuesped;
 
     // Constructor vacío requerido por Firebase
     public Habitacion() {}
 
+    public Habitacion(String numero, String estado, String fechaReserva, String nombreHuesped) {
+        this.numero = numero;
+        this.estado = estado;
+        this.fechaReserva = fechaReserva;
+        this.nombreHuesped = nombreHuesped;
+    }
+
     // Getters
     public int getPlanta() { return planta; }
+    public String getNombreHuesped() { return nombreHuesped;}
+
+    public void setNombreHuesped(String nombreHuesped) { this.nombreHuesped = nombreHuesped; }
     public String getNumero() { return numero; }
     public String getTipo() { return tipo; }
     public String getEstado() { return estado; }

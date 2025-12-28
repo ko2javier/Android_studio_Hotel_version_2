@@ -19,8 +19,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
+import com.example.hotel_hw_1.modelo.Habitacion;
 import com.example.hotel_hw_1.modelo.Huesped;
 import com.example.hotel_hw_1.modelo.Validacion;
+import com.example.hotel_hw_1.repositorio.HabitacionRepository;
 import com.example.hotel_hw_1.repositorio.HuespedData;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
@@ -35,6 +37,7 @@ public class GestionEntradasSalidasActivity extends AppCompatActivity {
     private String nombre,apellidos, telefono,habitacion;
     private TextInputEditText etNombre,etApellidos, etTelefono, etHabitacion, etNombreBuscar, etApellidosBuscar;
     private Huesped gest_check_out=null;
+    private String numHabitacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,10 +113,14 @@ asi que es solo llamar al repo e implementar la interfaz si hay exito o error en
             HuespedRepository.realizarCheckOut(gest_check_out.getId(), new HuespedRepository.HuespedCallback() {
                 @Override
                 public void onSuccess(String mensaje) {
+
                     Snackbar.make(v, "Éxito: Check-Out realizado con exito", Snackbar.LENGTH_LONG).show();
                     btnCheckOut.setVisibility(View.GONE);
                     etNombreBuscar.setText("");
                     etApellidosBuscar.setText("");
+                  numHabitacion = gest_check_out.getHabitacion();
+                    complemento_check_out( v);
+
                     gest_check_out= null;
                 }
 
@@ -127,6 +134,32 @@ asi que es solo llamar al repo e implementar la interfaz si hay exito o error en
             Snackbar.make(v, "Error: No se pudo procesar la salida", Snackbar.LENGTH_LONG).show();
         }
 
+    }
+
+    /*
+    * con este metodo enlazamos el repositorio huesped
+    * con la gestion de ocupacion del hotel
+    * de este modo se libera la habitacion tambien!!*/
+    private void complemento_check_out(View v){
+        HabitacionRepository.liberarHabitacion(numHabitacion, new HabitacionRepository.HabitacionCallback() {
+            @Override
+            public void onSuccess(String msgHab) {
+                // ÉXITO TOTAL: Ambos procesos terminaron bien
+                Snackbar.make(v, "Check-Out completo. Habitación " + numHabitacion + " liberada.", Snackbar.LENGTH_LONG).show();
+
+                // Limpieza de UI
+                btnCheckOut.setVisibility(View.GONE);
+                etNombreBuscar.setText("");
+                etApellidosBuscar.setText("");
+                gest_check_out = null;
+            }
+
+            @Override
+            public void onError(String error) {
+                // El huésped salió, pero la habitación falló al liberarse (raro, pero posible)
+                Snackbar.make(v, "Ojo: Huésped salió pero falló liberar habitación: " + error, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void registrar_huesped(View v) {

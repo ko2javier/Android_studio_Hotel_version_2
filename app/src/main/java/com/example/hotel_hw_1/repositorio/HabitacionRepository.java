@@ -90,7 +90,7 @@ public class HabitacionRepository {
     }
 
     /**
-     * Retorna el mapa completo para la pantalla de Ocupación.
+     * Retorna todas las habitaciones!!
      */
     public static Map<String, Habitacion> getTodasLasHabitaciones() {
         return new HashMap<>(habitacionesCache);
@@ -104,26 +104,29 @@ public class HabitacionRepository {
      * Actualiza localmente el objeto de la caché y lo lanza a Firebase.
      * No importa qué cambie (estado, fecha, etc.), se envía el objeto completo.
      */
-    public static void actualizarHabitacion(String idHabitacion, String nuevoEstado, String fecha, HabitacionCallback callback) {
-        // 1. Tomamos el objeto que ya existe en nuestro mapa (diccionario)
+    public static void actualizarEstadoHabitacion(String idHabitacion, String nuevoEstado,
+                                                  String fecha, String nombreCliente, HabitacionCallback callback) {
+
+        // 1. Buscamos el objeto en la lista local
         Habitacion hab = habitacionesCache.get(idHabitacion);
 
         if (hab != null) {
-            // 2. Actulizo en mi lista local
+            // 2. Actualizamos los datos en memoria
             hab.setEstado(nuevoEstado);
             hab.setFechaReserva(fecha);
+            hab.setNombreHuesped(nombreCliente);
 
-            // 3. Paso el objeto al Firebase
+            // 3. Enviamos el objeto a Firebase y se actualiza en la nube!!
             dbHabitaciones.child(idHabitacion).setValue(hab)
-                    .addOnSuccessListener(aVoid -> callback.onSuccess("Habitación " + idHabitacion + " sincronizada"))
-                    .addOnFailureListener(e -> callback.onError("Fallo en Firebase: " + e.getMessage()));
+                    .addOnSuccessListener(aVoid -> callback.onSuccess("Habitación " + idHabitacion + " actualizada correctamente"))
+                    .addOnFailureListener(e -> callback.onError("Error al guardar: " + e.getMessage()));
         } else {
-            callback.onError("El numero de habitacion no es correcto");
+            callback.onError("Error: La habitación " + idHabitacion + " no existe.");
         }
     }
 
     /**
-     * Se libera la habitacion tras un Check-Out
+     * Se libera la habitacion tras un Check-Out o fin de reserva!!
      */
     public static void liberarHabitacion(String idHabitacion, HabitacionCallback callback) {
        // 1. Tomamos el objeto que ya existe en nuestro mapa (diccionario)
@@ -132,6 +135,8 @@ public class HabitacionRepository {
         if (hab != null) {
             // 2. Actulizo en mi lista local
             hab.setEstado("Libre");
+            hab.setFechaReserva("");
+            hab.setNombreHuesped("");
 
             // 3. Paso el objeto al Firebase
             dbHabitaciones.child(idHabitacion).setValue(hab)
@@ -142,4 +147,65 @@ public class HabitacionRepository {
         }
     }
 
+
+    /**
+     * Metodos para el Reservar habitacion
+     */
+    // --- NUEVOS MÉTODOS DE LÓGICA DE NEGOCIO ---
+
+    /**
+     * Recorre la lista de habitaciones  y devuelve un texto formateado con la disponibilidad de esa planta.
+     *  ej: "- Simples: 5  - Dobles: 10  - Triples: 0"
+     */
+    public static String obtenerEstadisticasTexto(int planta) {
+        int simples = 0, dobles = 0, triples = 0;
+
+        // Iteramos los índices posibles de una planta (00 a 99)
+        for (int i = 0; i < 100; i++) {
+            String sufijo = (i < 10) ? "0" + i : String.valueOf(i);
+            String id = planta + sufijo; // Ej: 100, 105...
+
+            Habitacion h = habitacionesCache.get(id);
+
+            // Solo contamos si existe y está libre
+            if (h != null && "Libre".equals(h.getEstado())) {
+                if (i < 40) simples++;       // 00-39
+                else if (i < 90) dobles++;   // 40-89
+                else triples++;              // 90-99
+            }
+        }
+
+        return "- Simples: " + simples + "  - Dobles: " + dobles + "  - Triples: " + triples;
+    }
+
+    /**
+     * Busca la primera habitación libre según planta y tipo.
+
+     */
+    public static String buscarPrimeraLibre(int planta, String tipo) {
+        int inicio = 0;
+        int fin = 0;
+
+        switch (tipo) {
+            case "Simple": inicio = 0; fin = 39; break;
+            case "Doble":  inicio = 40; fin = 89; break;
+            case "Triple": inicio = 90; fin = 99; break;
+            default: return null;
+        }
+
+        for (int i = inicio; i <= fin; i++) {
+            // Construimos el ID: Planta (3) + Sufijo (40) -> "340"
+            String sufijo = (i < 10) ? "0" + i : String.valueOf(i);
+            String idCalculado = planta + sufijo; // ESTA ES LA CLAVE
+
+            Habitacion h = habitacionesCache.get(idCalculado);
+
+            // Si existe y está libre, devolvemos el ID CALCULADO ("340"), no h.getNumero() ("40")
+            if (h != null && "Libre".equals(h.getEstado())) {
+                return idCalculado;
+            }
+        }
+
+        return null;
+    }
 }

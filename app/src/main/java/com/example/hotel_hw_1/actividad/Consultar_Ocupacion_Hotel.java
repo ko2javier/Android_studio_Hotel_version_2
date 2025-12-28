@@ -5,6 +5,7 @@ package com.example.hotel_hw_1.actividad;
  * Proyecto: Gestión de Hotel - Práctica 1ª Evaluación (PMDM 2025/2026)
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.OcupacionAdapter;
 import com.example.hotel_hw_1.modelo.Habitacion;
 import com.example.hotel_hw_1.modelo.ItemOcupacion;
+import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.repositorio.HabitacionRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -24,6 +26,7 @@ public class Consultar_Ocupacion_Hotel extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private OcupacionAdapter adapter;
+
     private MaterialTextView txtOcupacionTotal;
     private int contadorOcupadas = 0;
 
@@ -39,7 +42,9 @@ public class Consultar_Ocupacion_Hotel extends AppCompatActivity {
 
         // 2. Preparar los datos reales desde el repositorio
         List<ItemOcupacion> listaFinal = generarListaProcesada();
-
+        // Obtengo el rol del usuario
+        Usuario u = Usuario.getInstance();
+        String rol= u.getTipo_usuario();
         // 3. Configurar el Adapter con el detalle de la interfaz
         adapter = new OcupacionAdapter(listaFinal, new OcupacionAdapter.OnHabitacionClickListener() {
             @Override
@@ -47,6 +52,16 @@ public class Consultar_Ocupacion_Hotel extends AppCompatActivity {
                 // Aquí es donde el controlador (Activity) decide qué hacer
                 if (!hab.getEstado().equals("Libre")) {
                     mostrarDetalleHabitacion(hab);
+                    // Si clica el espacio verde va a reservar habitacion!!
+                }else if( hab.getEstado().equals("Libre") && rol.equalsIgnoreCase("Recepcionista")){
+                    Intent intent = new Intent(Consultar_Ocupacion_Hotel.this, CheckInActivity.class);
+                    /* Obtengo el valor de la habitacion y lo paso a la otra actividad*/
+                    Integer valor_hab= Integer.parseInt(hab.getNumero());
+                    String sufijo = (valor_hab < 10) ? "0" + valor_hab : valor_hab+"";
+                    sufijo = hab.getPlanta()+sufijo;
+
+                    intent.putExtra("EXTRA_HABITACION", sufijo);
+                    startActivity(intent);
                 }
             }
         });
@@ -89,15 +104,24 @@ public class Consultar_Ocupacion_Hotel extends AppCompatActivity {
 * Metodo para mostrar detalle de la habitacion si hacen click y esta reservada
 *  */
     private void mostrarDetalleHabitacion(Habitacion hab) {
-        String info = "Estado: " + hab.getEstado();
-        if (hab.getEstado().equals("Reservada")) {
-            info += "\nReserva para la feche: " + hab.getFechaReserva();
+
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("Estado: ").append(hab.getEstado());
+
+        // Si tiene nombre lo mostramos
+        if (hab.getNombreHuesped() != null && !hab.getNombreHuesped().isEmpty()) {
+            mensaje.append("\nHuésped: ").append(hab.getNombreHuesped());
+        }
+
+        // Si es una reserva, mostramos la fecha
+        if (hab.getEstado().equals("Reservada") && !hab.getFechaReserva().isEmpty()) {
+            mensaje.append("\nFecha Entrada: ").append(hab.getFechaReserva());
         }
 
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Habitación " + hab.getNumero())
-                .setMessage(info)
-                .setPositiveButton("Entendido", null)
+                .setMessage(mensaje.toString())
+                .setPositiveButton("Cerrar", null)
                 .show();
     }
     private void agregarSeccion(List<ItemOcupacion> lista, Map<String, Habitacion> mapa, int planta, String tipo, int inicio, int fin) {
