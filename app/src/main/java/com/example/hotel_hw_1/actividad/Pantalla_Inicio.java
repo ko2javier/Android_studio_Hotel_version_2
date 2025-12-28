@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +20,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.modelo.Validacion;
-import com.example.hotel_hw_1.repositorio.LoginCallback;
-import com.example.hotel_hw_1.repositorio.UsuarioData;
 import com.example.hotel_hw_1.repositorio.UsuarioRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;

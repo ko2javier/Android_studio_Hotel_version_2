@@ -24,15 +24,15 @@
         android:layout_marginBottom="15dp"/>
 
 
-        <ListView
-        android:id="@+id/listview_tareas"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_tareas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:dividerHeight="8dp"
         android:padding="4dp"
-        android:scrollbars="vertical"
-        android:background="#FFFFFF"/>
+        android:clipToPadding="false"/>
 
 <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_tareas"

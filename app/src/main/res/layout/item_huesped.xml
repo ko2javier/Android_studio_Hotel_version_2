@@ -1,73 +1,84 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_huesped"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#FFFFFF"
-    android:layout_marginVertical="4dp"
-    android:elevation="2dp">
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
     <LinearLayout
-        android:id="@+id/linear_fotos_datos"
+        android:id="@+id/linear_huesped"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/person"
-            android:layout_marginEnd="30dp"
-            />
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_huesped"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            android:layout_marginEnd="16dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"/>
+
         <LinearLayout
-            android:id="@+id/linear_datos"
-            android:layout_width="match_parent"
+            android:id="@+id/linear_huesped1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            >
+            android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txt_nombre_huesped"
+            <LinearLayout
+                android:id="@+id/linear_huesped2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="#1A237E"
-                android:text="nombre huesped" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txt_telefono_huesped"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#555"
-                android:text="telefono" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_nombre_huesped"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre Apellido"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"/>
 
-            <TextView
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_estado_huesped"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hospedado"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#2E7D32"
+                    android:background="#E8F5E9"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"/>
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_habitacion_huesped"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#555"
-                android:text="habitacion" />
+                android:text="Habitación: 101"
+                android:textColor="#616161"
+                android:layout_marginTop="4dp"/>
 
-            <TextView
-                android:id="@+id/txt_estado_huesped"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_telefono_huesped"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#2E7D32"
-                android:text="estado" />
-
+                android:text="Tel: 600111222"
+                android:textSize="13sp"
+                android:textColor="#757575"/>
         </LinearLayout>
 
     </LinearLayout>
-
-
-
-
-
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

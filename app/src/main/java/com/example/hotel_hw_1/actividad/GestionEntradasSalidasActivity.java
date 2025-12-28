@@ -26,6 +26,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.example.hotel_hw_1.repositorio.HuespedRepository;
 
 public class GestionEntradasSalidasActivity extends AppCompatActivity {
     private RadioGroup radioGroupOperacion;
@@ -33,6 +34,7 @@ public class GestionEntradasSalidasActivity extends AppCompatActivity {
     private MaterialButton btnVolver, btnCheckIn, btnBuscar,btnCheckOut;
     private String nombre,apellidos, telefono,habitacion;
     private TextInputEditText etNombre,etApellidos, etTelefono, etHabitacion, etNombreBuscar, etApellidosBuscar;
+    private Huesped gest_check_out=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,19 +95,38 @@ public class GestionEntradasSalidasActivity extends AppCompatActivity {
         //  Volver
         btnVolver.setOnClickListener(v -> finish());
     }
-
+/*
+Con este metodo hacemos la salida
+ya habiamos encontrado el huesped con buscar
+asi que es solo llamar al repo e implementar la interfaz si hay exito o error en la accion
+* */
     private void realizar_check_out(View v) {
+        // Obtenemos los datos de los campos de búsqueda
         nombre = etNombreBuscar.getText().toString().trim();
         apellidos = etApellidosBuscar.getText().toString().trim();
-        boolean exito = HuespedData.marcarCheckOut(nombre, apellidos);
-        if (exito) {
-            Snackbar.make(v, " Exito Check-Out realizado ", Snackbar.LENGTH_LONG).show();
-            btnCheckOut.setVisibility(Button.GONE);
-            etNombreBuscar.setText("");
-            etApellidosBuscar.setText("");
+
+        if (gest_check_out != null) {
+            // 2. Ejecutamos la salida en Firebase usando el ID
+            HuespedRepository.realizarCheckOut(gest_check_out.getId(), new HuespedRepository.HuespedCallback() {
+                @Override
+                public void onSuccess(String mensaje) {
+                    Snackbar.make(v, "Éxito: Check-Out realizado con exito", Snackbar.LENGTH_LONG).show();
+                    btnCheckOut.setVisibility(View.GONE);
+                    etNombreBuscar.setText("");
+                    etApellidosBuscar.setText("");
+                    gest_check_out= null;
+                }
+
+                @Override
+                public void onError(String error) {
+                    Snackbar.make(v, "Error: No se pudo procesar la salida", Snackbar.LENGTH_LONG).show();
+                }
+            });
+
         } else {
-            Snackbar.make(v, " Check-Out Fallido", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(v, "Error: No se pudo procesar la salida", Snackbar.LENGTH_LONG).show();
         }
+
     }
 
     private void registrar_huesped(View v) {
@@ -114,27 +135,44 @@ public class GestionEntradasSalidasActivity extends AppCompatActivity {
         apellidos = etApellidos.getText().toString().trim();
         telefono = etTelefono.getText().toString().trim();
         habitacion = etHabitacion.getText().toString().trim();
+        String fechaHoy = new java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(new java.util.Date());
 
-        Huesped nuevo = new Huesped(nombre, apellidos, telefono, habitacion);
-        HuespedData.agregarHuesped(nuevo);
-        Snackbar.make(v, "Exito Check-In realizado ", Snackbar.LENGTH_LONG).show();
+        Huesped nuevo = new Huesped(nombre, apellidos, telefono, habitacion, fechaHoy);
 
-        // Limpiar campos
-        etNombre.setText("");
-        etApellidos.setText("");
-        etTelefono.setText("");
-        etHabitacion.setText("");
+        HuespedRepository.crearHuesped(nuevo, new HuespedRepository.HuespedCallback() {
+            @Override
+            public void onSuccess(String mensaje) {
+                Snackbar.make(v, mensaje, Snackbar.LENGTH_LONG).show();
+                // Limpiar campos
+                etNombre.setText("");
+                etApellidos.setText("");
+                etTelefono.setText("");
+                etHabitacion.setText("");
+
+            }
+
+            @Override
+            public void onError(String error) {
+                Snackbar.make(v, "Error: " + error, Snackbar.LENGTH_LONG).show();
+
+            }
+        });
     }
 
+    /*
+con este metodo buscamos el huesped, una vez encontrado mostramos el boton para hacer el
+check out, ademas dejamos listo el valor de ese usuario en la variable " gest_check_out "  !!!!!
+* */
     private void buscar_huesped(View v) {
+        // Mantengo tus validaciones de campos existentes
         int errores = 0;
         StringBuilder msg = new StringBuilder();
 
-        if (!Validacion.validarNombre( etNombreBuscar)) {
+        if (!Validacion.validarNombre(etNombreBuscar)) {
             errores++;
             msg.append("• Nombre inválido.\n");
         }
-        if (!Validacion.validarApellidos( etApellidosBuscar)) {
+        if (!Validacion.validarApellidos(etApellidosBuscar)) {
             errores++;
             msg.append("• Apellidos inválidos.\n");
         }
@@ -145,13 +183,14 @@ public class GestionEntradasSalidasActivity extends AppCompatActivity {
         nombre = etNombreBuscar.getText().toString().trim();
         apellidos = etApellidosBuscar.getText().toString().trim();
 
-        Huesped h = HuespedData.buscarHuesped(nombre, apellidos);
-        if (h != null && h.isCheckInActivo()) {
-            btnCheckOut.setVisibility(Button.VISIBLE);
-            Snackbar.make(v, "Huésped encontrado: " + h.getNombre() + " " + h.getApellidos(), Snackbar.LENGTH_SHORT).show();
-        } else {
-            btnCheckOut.setVisibility(Button.GONE);
-            mostrarDialogoNoEncontrado();
+        // 3. BUSQUEDA REAL EN EL REPOSITORIO (Firebase Cache)
+        gest_check_out = HuespedRepository.buscarHuespedActivo(nombre, apellidos);
+
+        if (gest_check_out != null) {
+            // Huésped encontrado y activo
+            btnCheckOut.setVisibility(View.VISIBLE);
+            Snackbar.make(v, "Huésped encontrado en Hab: " + gest_check_out.getHabitacion(), Snackbar.LENGTH_SHORT).show();
+
         }
     }
 

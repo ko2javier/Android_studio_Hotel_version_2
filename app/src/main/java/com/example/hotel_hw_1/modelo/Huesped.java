@@ -7,19 +7,37 @@
 
 package com.example.hotel_hw_1.modelo;
 
-public class Huesped {
+import java.io.Serializable;
+
+public class Huesped implements Serializable {
+    private String id; // ID único de Firebase
     private String nombre;
     private String apellidos;
     private String telefono;
     private String habitacion;
+    private String fechaEntrada; // Fecha de llegada
     private boolean checkInActivo; // true = hospedado, false = check-out
 
-    public Huesped(String nombre, String apellidos, String telefono, String habitacion) {
+    public Huesped(String nombre, String apellidos, String telefono, String habitacion, String fechaEntrada) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.habitacion = habitacion;
-        this.checkInActivo = true;
+        this.fechaEntrada = fechaEntrada;
+        this.checkInActivo = true; // Por defecto entra como hospedado
+    }
+
+    public Huesped() {
+    }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
+
+    public String getFechaEntrada() { return fechaEntrada; }
+
+    public void setFechaEntrada(String fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
     }
 
     // Getters y setters

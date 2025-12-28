@@ -17,14 +17,14 @@
         android:textSize="20sp"
         android:gravity="center"
         android:layout_marginBottom="15dp" />
-
-    <ListView
-        android:id="@+id/list_view_huespedes"
+<androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_huespedes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:dividerHeight="6dp"
         android:divider="#DDDDDD" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_listado"
         android:layout_width="match_parent"

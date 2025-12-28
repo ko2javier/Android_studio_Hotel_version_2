@@ -7,7 +7,7 @@
 
 package com.example.hotel_hw_1.repositorio;
 
-
+/*
 import com.example.hotel_hw_1.modelo.Tarea;
 
 import java.util.ArrayList;
@@ -17,23 +17,7 @@ public class TareaData {
 
     private static final List<Tarea> tareas = new ArrayList<>();
 
-    static {
-        //  Agrego tareas de Mantenimiento
-        tareas.add(new Tarea("Mantenimiento", "Planta 1", "101",  "Norte"));
-        tareas.add(new Tarea("Mantenimiento", "Planta 2", "202",  "Sur"));
-        tareas.add(new Tarea("Mantenimiento", "Planta 3", "303",  "Oeste"));
-        tareas.add(new Tarea("Mantenimiento", "Planta 5", "503",  "Este"));
-        tareas.add(new Tarea("Mantenimiento", "Planta 2", "203",  "Oeste"));
-        tareas.add(new Tarea("Mantenimiento", "Planta 4", "403",  "Este"));
-        // Agrego tareas de Limpieza
-        tareas.add(new Tarea("Limpieza", "Planta 1", "104",  "Norte"));
-        tareas.add(new Tarea("Limpieza", "Planta 2", "206",  "Sur"));
-        tareas.add(new Tarea("Limpieza", "Planta 4", "405",  "Este"));
-        tareas.add(new Tarea("Limpieza", "Planta 5", "505",  "Oeste"));
-        tareas.add(new Tarea("Limpieza", "Planta 1", "115",  "oeste"));
-        tareas.add(new Tarea("Limpieza", "Planta 3", "305",  "Oeste"));
-        tareas.add(new Tarea("Limpieza", "Planta 2", "215",  "Sur"));
-    }
+
 
     // Esto es fundamental --> Añadir nueva tarea  desde huesped
     public static void agregarTarea(Tarea t) {
@@ -49,7 +33,7 @@ public class TareaData {
     public static List<Tarea> getTareasPorTipo(String tipo) {
         List<Tarea> lista = new ArrayList<>();
         for (Tarea t : tareas) {
-            if (t.getTipoTarea().equalsIgnoreCase(tipo)) {
+            if (t.getTipoServicio() .equalsIgnoreCase(tipo)) {
                 lista.add(t);
             }
         }
@@ -60,7 +44,7 @@ public class TareaData {
     public static List<Tarea> getTareasSinAsignar(String tipo) {
         List<Tarea> disponibles = new ArrayList<>();
         for (Tarea t : tareas) {
-            if (t.getTipoTarea().equalsIgnoreCase(tipo)
+            if (t.getTipoServicio().equalsIgnoreCase(tipo)
                     && t.getAsignadaA().equalsIgnoreCase("Sin asignar")) {
                 disponibles.add(t);
             }
@@ -90,4 +74,4 @@ public class TareaData {
         return contador < limite; // si el limite para este empleado fue alcanzado mando false!!!
     }
 }
-
+*/

@@ -59,13 +59,15 @@
     </RadioGroup>
 
 
-    <ListView
-        android:id="@+id/list_tareas_limpieza"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_tareas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="4dp" />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
+        android:padding="4dp"
+        android:clipToPadding="false"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_tareas"

@@ -17,7 +17,7 @@ import java.util.List;
 public class EmpleadoAdapter
         extends RecyclerView.Adapter<EmpleadoAdapter.EmpleadoViewHolder> {
 
-    // ===== INTERFACE (IGUAL QUE EN MODULO) =====
+    // INTERFACE
     public interface OnEmpleadoClickListener {
         void onEditarClick(Empleado empleado);
         void onBorrarClick(Empleado empleado);

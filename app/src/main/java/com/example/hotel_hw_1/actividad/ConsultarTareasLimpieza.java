@@ -13,20 +13,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Tarea;
 import com.example.hotel_hw_1.adaptador.TareaAdapter;
-import com.example.hotel_hw_1.repositorio.TareaData;
+import com.example.hotel_hw_1.repositorio.TareaRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConsultarTareasLimpieza extends AppCompatActivity {
-// defino variables
-    private ListView listViewTareas;
+
+    // defino variables
+    private RecyclerView recyclerTareas;
     private RadioGroup radioGroup;
     private MaterialRadioButton rbPendientes, rbAsignadas;
     private MaterialButton btnVolver;
@@ -39,17 +42,19 @@ public class ConsultarTareasLimpieza extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_tareas_limpieza);
 
-        //  identifico  variables con los id
-        listViewTareas = findViewById(R.id.list_tareas_limpieza);
+        // Defino mi recycler
+        recyclerTareas = findViewById(R.id.recycler_tareas);
+        recyclerTareas.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+
         radioGroup = findViewById(R.id.rg_tipo_tareas);
         rbPendientes = findViewById(R.id.rb_pendientes);
         rbAsignadas = findViewById(R.id.rb_asignadas);
         btnVolver = findViewById(R.id.btn_volver_tareas);
 
-        // Por defecto muestro tareas pdtes
+        // Por defecto muestro tareas pendientes
         actualizarLista("Pendiente");
 
-        // Si cambio el estado muestro pdte/ asignadas
+        // Si cambio el estado muestro pdte / asignadas
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_pendientes) {
                 actualizarLista("Pendiente");
@@ -66,18 +71,22 @@ public class ConsultarTareasLimpieza extends AppCompatActivity {
         });
     }
 
-    // aca creo la lista filtrada por pdte o por asignada!!
-
+    // Aca creo la lista filtrada por pdte o por asignada, LEYENDO DEL REPOSITORIO
     private void actualizarLista(String estado) {
         listaFiltrada.clear();
-        for (Tarea t : TareaData.getTareas()) {
-            if (t.getTipoTarea().equalsIgnoreCase("Limpieza") &&
-                    t.getEstado().equalsIgnoreCase(estado)) {
+
+        // 1. Obtenemos SOLO las de Limpieza directamente del Repo (más eficiente)
+        List<Tarea> todasLasDeLimpieza = TareaRepository.getTareasPorTipo("Limpieza");
+
+        // 2. Filtramos localmente por estado (Pendiente / Asignada)
+        for (Tarea t : todasLasDeLimpieza) {
+            if (t.getEstado().equalsIgnoreCase(estado)) {
                 listaFiltrada.add(t);
             }
         }
 
-        adapter = new TareaAdapter(this, listaFiltrada, "Limpieza");// paso al adapter la lista filtrada!!
-        listViewTareas.setAdapter(adapter);
+        // 3. Cargamos el adaptador
+        adapter = new TareaAdapter(this, listaFiltrada, "Limpieza");
+        recyclerTareas.setAdapter(adapter);
     }
 }
