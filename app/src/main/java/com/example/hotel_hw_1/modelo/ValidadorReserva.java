@@ -26,6 +26,7 @@ public class ValidadorReserva {
             RadioButton rbDoble,
             RadioButton rbTriple,
             EditText editFecha,
+            EditText editFecha_out,
             EditText etNombre,
             EditText etApellidos) {
 
@@ -46,14 +47,23 @@ public class ValidadorReserva {
             rbTriple.setTextColor(Color.BLACK);
         }
 
-        // Paso 2: Validar fecha
+        // Paso 2: Validar fecha entrada
         String fecha = editFecha.getText().toString().trim();
         if (fecha.isEmpty()) {
             errores++;
-            mensajes.append("• El campo fecha no puede estar vacío.\n");
+            mensajes.append("• La fecha entrada no puede estar vacía.\n");
             editFecha.setError("Campo obligatorio");
         } else {
             editFecha.setError(null);
+        }
+        // Paso 2.1: Validar fecha entrada
+        String fecha_salida = editFecha_out.getText().toString().trim();
+        if (fecha_salida.isEmpty()) {
+            errores++;
+            mensajes.append("• La fecha salida no puede estar vacía.\n");
+            editFecha_out.setError("Campo obligatorio");
+        } else {
+            editFecha_out.setError(null);
         }
 
         // Paso 3: Validar nombre y apellidos (solo para recepcionista)

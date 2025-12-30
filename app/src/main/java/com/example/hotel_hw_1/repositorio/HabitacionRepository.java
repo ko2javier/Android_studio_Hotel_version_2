@@ -66,7 +66,6 @@ public class HabitacionRepository {
 
     /**
      * Valida si una habitación está disponible para Check-In.
-     * @return null si todo OK, o un String con el mensaje de error.
      */
     public static String validarDisponibilidad(String idHabitacion) {
         Habitacion hab = habitacionesCache.get(idHabitacion);

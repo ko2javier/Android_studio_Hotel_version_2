@@ -23,13 +23,13 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="25dp" />
 
-    <ListView
+<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_encuestas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"/>
+        android:dividerHeight="4dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver"
@@ -39,7 +39,7 @@
         android:layout_marginTop="20dp"
         android:text="Volver"
         app:backgroundTint="#1a759f"
-        android:padding="8dp"
+        android:padding="10dp"
         android:textColor="@color/white"/>
 
 

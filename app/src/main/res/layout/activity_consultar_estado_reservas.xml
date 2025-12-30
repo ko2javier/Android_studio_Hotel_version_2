@@ -24,18 +24,20 @@
         android:textColor="#C32626"
         />
 
-
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_reservas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/transparent"
-        android:dividerHeight="8dp"
+        android:dividerHeight="2dp"
         android:layout_marginVertical="6dp"
         android:layout_marginTop="30dp"
-        android:elevation="6dp"
-        android:layout_marginBottom="20dp" />
+        android:elevation="2dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_volver_consultar_reservas"

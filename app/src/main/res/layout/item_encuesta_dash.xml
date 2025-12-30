@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_encuesta_resumen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:strokeColor="#DDDDDD"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:id="@+id/linear_padre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/linear_hijo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+               android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/outline_asterisk_24"
+                app:tint="#FBC02D"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/txt_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Limpieza Habitación"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEE"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RatingBar
+                android:id="@+id/rating_bar_resumen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.1"
+                android:rating="4.3"
+                android:isIndicator="true"
+                style="?android:attr/ratingBarStyleIndicator"/>
+
+            <TextView
+                android:id="@+id/txt_promedio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Promedio: 4.3"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="#555"/>
+
+            <TextView
+                android:id="@+id/txt_cantidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 encuestas registradas"
+                android:textSize="12sp"
+                android:textColor="#888"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ver comentarios >"
+            android:gravity="end"
+            android:textColor="#1976D2"
+            android:textSize="12sp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

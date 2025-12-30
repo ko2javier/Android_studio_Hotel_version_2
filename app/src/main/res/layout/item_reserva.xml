@@ -1,41 +1,104 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_reserva"
+    android:id="@+id/card_reserva"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#FFF"
-    android:padding="20dp"
-    android:layout_marginBottom="10dp"
-    android:elevation="4dp"
-    android:layout_marginEnd="6dp"
-
-    >
-
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#DDDDDD">
 
     <LinearLayout
-        android:id="@+id/linar_horizontal"
+        android:id="@+id/linear_padre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="10dp"
         android:gravity="center_vertical">
-
-        <ImageView
-            android:id="@+id/icono_reserva"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_icono_hotel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/baseline_hotel_24"
-            android:layout_marginEnd="8dp"
-            app:tint="#2E7D32" />
+            app:tint="#4CAF50"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="Icono Hotel"/>
 
-        <TextView
-            android:id="@+id/txt_detalle_reserva"
+        <LinearLayout
+            android:id="@+id/linear_textos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
-            android:textColor="#2E7D32"
-            android:padding="5dp" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-</LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_fechas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha: 12-01-2025 | 15-01-2025"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:textStyle="bold"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_habitacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Habitación: 101 (Doble)"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"
+                android:textColor="#666"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_servicios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Servicios: Spa, Parking"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"
+                android:textColor="#666"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estado: Pendiente"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold"
+                android:textColor="#FF9800"/>
+
+            <LinearLayout
+                android:id="@+id/linear_botones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancelar_reserva"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CANCELAR"
+                    android:textColor="#D32F2F"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_valorar_estancia"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OPINAR"
+                    android:textColor="#1976D2"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

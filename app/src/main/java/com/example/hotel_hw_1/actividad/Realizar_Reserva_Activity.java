@@ -5,6 +5,7 @@
 
 package com.example.hotel_hw_1.actividad;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -20,9 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.modelo.Habitacion;
+import com.example.hotel_hw_1.modelo.Reserva;
 import com.example.hotel_hw_1.modelo.ValidadorReserva;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.example.hotel_hw_1.repositorio.HabitacionRepository; // Usamos el Repo Real
+import com.example.hotel_hw_1.repositorio.ReservaRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -35,7 +38,9 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class Realizar_Reserva_Activity extends AppCompatActivity {
@@ -45,7 +50,9 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
             rb_media_pension, rb_pension_full;
     private MaterialCheckBox checkbox_spa, checkbox_parking;
     private RadioGroup radio_group, radiog_type_pension;
-    private TextInputEditText  etNombreHuesped, et_apellidos, edit_fecha;
+    private TextInputEditText  etNombreHuesped, et_apellidos;
+    private TextInputEditText editFechaEntrada, editFechaSalida;
+    private long fechaEntradaMs = 0;
     private MaterialTextView txt_disponibilidad_actual;
     private MaterialButton btn_confirmar_reserva, btn_volver_reserva_flat;
 
@@ -54,6 +61,7 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
     private MaterialAutoCompleteTextView spinnerPlanta;
     private String idHabitacionSeleccionada = null;
     private int plantaActual = 1; // Por defecto Planta 1 para el spinner !!!
+    private String tipoTexto="";// Dato que me dice que tipo de habitacion selecciono el usuario!!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +71,10 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
 
         etNombreHuesped = findViewById(R.id.et_nombre_huesped);
         et_apellidos = findViewById(R.id.et_apellidos_huesped);
-        edit_fecha = findViewById(R.id.edit_fecha);
+
+        editFechaEntrada = findViewById(R.id.edit_fecha_entrada);
+        editFechaSalida = findViewById(R.id.edit_fecha_salida);
+
         radio_group = findViewById(R.id.radioGroupHabitacion);
         rbSimple = findViewById(R.id.rbSimple);
         rbDoble = findViewById(R.id.rbDoble);
@@ -86,19 +97,17 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
        // Obtengo el usuario en cuestion y muestro si es recepcionista
         Usuario usuario = Usuario.getInstance();
         if (usuario.getTipo_usuario().equalsIgnoreCase("recepcionista")) {
-            linearPlanta.setVisibility(View.VISIBLE);
+
             etNombreHuesped.setVisibility(View.VISIBLE);
             et_apellidos.setVisibility(View.VISIBLE);
 
-            String[] plantas = {"Planta 1", "Planta 2", "Planta 3", "Planta 4", "Planta 5"};
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_dropdown_item_1line, plantas);
-            spinnerPlanta.setAdapter(adapter);
-            spinnerPlanta.setText("Planta 1", false); // Valor inicial
-        } else {
-            linearPlanta.setVisibility(View.GONE);
-            plantaActual = 1; // Huesped siempre ve planta 1 por defecto (o lógica interna)
         }
+        linearPlanta.setVisibility(View.VISIBLE);
+        String[] plantas = {"Planta 1", "Planta 2", "Planta 3", "Planta 4", "Planta 5"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, plantas);
+        spinnerPlanta.setAdapter(adapter);
+        spinnerPlanta.setText("Planta 1", false); // Valor inicial
 
         // Carga inicial de estadísticas reales del Repositorio Habitacion
         actualizarEstadisticasPlanta(plantaActual);
@@ -107,7 +116,8 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
         btn_volver_reserva_flat.setOnClickListener(v -> finish());
 
         // Selector de fecha (con restricción de 2 días)
-        edit_fecha.setOnClickListener(v -> reservar_fecha());
+        editFechaEntrada.setOnClickListener(v -> mostrarCalendario(editFechaEntrada));
+        editFechaSalida.setOnClickListener(v -> mostrarCalendario(editFechaSalida));
 
 
         btn_confirmar_reserva.setOnClickListener(v -> confirmar_reserva(v));
@@ -135,7 +145,7 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
         if (idSeleccionado == -1) return;
 
         // Traducir selección a texto para el Repo
-        String tipoTexto = "";
+
         if (idSeleccionado == R.id.rbSimple) tipoTexto = "Simple";
         else if (idSeleccionado == R.id.rbDoble) tipoTexto = "Doble";
         else if (idSeleccionado == R.id.rbTriple) tipoTexto = "Triple";
@@ -166,39 +176,92 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
     }
 
 
-    /* Reservo la fecha adecuada, con rstriccion de 2 dias en adelante!! */
-    private void reservar_fecha() {
-        // Restricción: Mínimo 2 días después de hoy
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.add(Calendar.DAY_OF_YEAR, 2);
-        long minDate = calendar.getTimeInMillis();
+    private void mostrarCalendario(TextInputEditText campoTexto) {
 
-        CalendarConstraints constraints = new CalendarConstraints.Builder()
-                .setValidator(DateValidatorPointForward.from(minDate))
-                .build();
+        Calendar hoy = Calendar.getInstance();
 
-        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Fecha (Mín. 48h)")
-                .setSelection(minDate)
-                .setCalendarConstraints(constraints) // Aplicamos restricción
-                .build();
+        // Por defecto fecha min 2 dias adelante
+        Calendar fechaMinima = Calendar.getInstance();
+        fechaMinima.add(Calendar.DAY_OF_MONTH, 2);
 
-        datePicker.addOnPositiveButtonClickListener(selection -> {
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(selection);
-            String fecha = String.format("%02d-%02d-%04d",
-                    c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR));
-            edit_fecha.setText(fecha);
-        });
+        // 2 Si es campo salida el min sera 1 dias adelante
+        if (campoTexto == editFechaSalida) {
+            String entradaTxt = editFechaEntrada.getText() != null ? editFechaEntrada.getText().toString().trim() : "";
 
-        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+            if (!entradaTxt.isEmpty()) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
+                    Date fechaEntrada = sdf.parse(entradaTxt);
+
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(fechaEntrada);
+                    c.add(Calendar.DAY_OF_MONTH, 1); // 1 dia mas
+
+                    fechaMinima = c;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        int anio = hoy.get(Calendar.YEAR);
+        int mes = hoy.get(Calendar.MONTH);
+        int dia = hoy.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dpd = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            String fecha = String.format("%02d-%02d-%04d", dayOfMonth, (month + 1), year);
+            campoTexto.setText(fecha);
+
+            // Si cambias ENTRADA, limpias SALIDA
+            if (campoTexto == editFechaEntrada) {
+                editFechaSalida.setText("");
+            }
+        }, anio, mes, dia);
+
+        dpd.getDatePicker().setMinDate(fechaMinima.getTimeInMillis());
+        dpd.show();
     }
+
+    /*
+* metodo para obtener los servicios adicionales seleccionados */
+    private String[] recogerServiciosYRegimen() {
+        StringBuilder serviciosStr = new StringBuilder();
+
+        if (checkbox_spa.isChecked()) {
+            serviciosStr.append("Spa");
+        }
+
+        if (checkbox_parking.isChecked()) {
+            if (serviciosStr.length() > 0) serviciosStr.append(", ");
+            serviciosStr.append("Parking");
+        }
+
+        if (serviciosStr.length() == 0) {
+            serviciosStr.append("Sin servicios");
+        }
+
+        // Regimen 1/2 Pensión o PEnsion Completa
+        String regimenStr = "Solo Alojamiento";
+
+        if (rb_media_pension.isChecked()) {
+            regimenStr = "Media Pensión";
+        } else if (rb_pension_full.isChecked()) {
+            regimenStr = "Pensión Completa";
+        }
+
+        return new String[] {
+                serviciosStr.toString(), // posición 0
+                regimenStr                // posición 1
+        };
+    }
+
 
     // Metodo para verificar y GUARDAR EN FIREBASE
     private void confirmar_reserva(View v) {
+        String[] servicios= new String[2];
         // Paso 1: Tu validador original (Se mantiene, es útil)
         boolean esValido = ValidadorReserva.validarFormulario(this, v, radio_group,
-                rbSimple, rbDoble, rbTriple, edit_fecha, etNombreHuesped, et_apellidos);
+                rbSimple, rbDoble, rbTriple, editFechaEntrada, editFechaSalida, etNombreHuesped, et_apellidos);
 
         if (!esValido) return;
 
@@ -209,7 +272,8 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
         }
 
         // Paso 2: Obtener datos
-        String fecha = edit_fecha.getText().toString().trim();
+        String fecha = editFechaEntrada.getText().toString().trim();
+        String fecha_salida = editFechaSalida.getText().toString().trim();
         String nombreHuespedCompleto;
         Usuario usuario = Usuario.getInstance();
 
@@ -218,37 +282,53 @@ public class Realizar_Reserva_Activity extends AppCompatActivity {
                     et_apellidos.getText().toString().trim();
         } else {
             // Si es Huesped cogemos el nombre del usuario logueado
-            nombreHuespedCompleto = "App: " + usuario.getNombre()+ " "+ usuario.getApellidos();
+            nombreHuespedCompleto = usuario.getNombre() + " " + usuario.getApellidos();
         }
 
-        // Paso 3: GUARDAR EN FIREBASE (Sustituye a ReservaData)
-        btn_confirmar_reserva.setEnabled(false); // Evitar doble clic
+        // Paso 3: GUARDAR EN FIREBASE
+        servicios= recogerServiciosYRegimen();
+        Reserva nuevaReserva = new Reserva(null, nombreHuespedCompleto, idHabitacionSeleccionada,
+                fecha, fecha_salida, tipoTexto,
+                servicios[0],        // servicios
+                servicios[1],                     // regimen
+                "PENDIENTE"                     // estado
+        );
+        btn_confirmar_reserva.setEnabled(false); // Evito el doble click
         btn_confirmar_reserva.setText("Procesando...");
+        ReservaRepository.crearReserva(nuevaReserva, new ReservaRepository.ReservaCallback() {
+            @Override
+            public void onSuccess(String msgReserva) {
+                HabitacionRepository.actualizarEstadoHabitacion(idHabitacionSeleccionada, "Reservada", fecha, nombreHuespedCompleto,
+                        new HabitacionRepository.HabitacionCallback() {
+                            @Override
+                            public void onSuccess(String mensaje) {
+                                new AlertDialog.Builder(Realizar_Reserva_Activity.this)
+                                        .setTitle("¡Reserva Confirmada!")
+                                        .setMessage("Habitación: " + idHabitacionSeleccionada + "\n" +
+                                                "Fecha: " + fecha + "\n" +
+                                                "Cliente: " + nombreHuespedCompleto)
+                                        .setPositiveButton("Aceptar", (d, w) -> finish())
+                                        .setCancelable(false)
+                                        .show();
+                            }
 
-        HabitacionRepository.actualizarEstadoHabitacion(
-                idHabitacionSeleccionada,
-                "Reservada",
-                fecha,
-                nombreHuespedCompleto,
-                new HabitacionRepository.HabitacionCallback() {
-                    @Override
-                    public void onSuccess(String mensaje) {
-                        new AlertDialog.Builder(Realizar_Reserva_Activity.this)
-                                .setTitle("¡Reserva Confirmada!")
-                                .setMessage("Habitación: " + idHabitacionSeleccionada + "\n" +
-                                        "Fecha: " + fecha + "\n" +
-                                        "Cliente: " + nombreHuespedCompleto)
-                                .setPositiveButton("Aceptar", (d, w) -> finish())
-                                .setCancelable(false)
-                                .show();
-                    }
+                            @Override
+                            public void onError(String error) {
+                                btn_confirmar_reserva.setEnabled(true);
+                                btn_confirmar_reserva.setText("CONFIRMAR RESERVA");
+                                Snackbar.make(v, "Error Firebase: " + error, Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+            }
 
-                    @Override
-                    public void onError(String error) {
-                        btn_confirmar_reserva.setEnabled(true);
-                        btn_confirmar_reserva.setText("CONFIRMAR RESERVA");
-                        Snackbar.make(v, "Error Firebase: " + error, Snackbar.LENGTH_LONG).show();
-                    }
-                });
+
+            @Override
+            public void onError(String error) {
+                // Falló al guardar la Reserva (historial)
+                btn_confirmar_reserva.setEnabled(true);
+                btn_confirmar_reserva.setText("CONFIRMAR RESERVA");
+                Snackbar.make(v, "Error al crear reserva: " + error, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 }

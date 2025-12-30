@@ -8,14 +8,14 @@
 package com.example.hotel_hw_1.actividad;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hotel_hw_1.R;
-import com.example.hotel_hw_1.adaptador.AdaptadorEncuesta;
+import com.example.hotel_hw_1.adaptador.AdaptadorEncuestaResumen;
 import com.example.hotel_hw_1.modelo.Encuesta;
 import com.example.hotel_hw_1.modelo.Usuario;
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Consultar_Encuesta_Satisfaccion extends AppCompatActivity {
+    private RecyclerView recycler;
+    MaterialButton btnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +33,10 @@ public class Consultar_Encuesta_Satisfaccion extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_consultar_encuestas_satisfaccion);
 
-        ListView listaEncuestas = findViewById(R.id.lista_encuestas);
-        MaterialButton btnVolver = findViewById(R.id.btn_volver);
+         recycler = findViewById(R.id.lista_encuestas);
+         btnVolver = findViewById(R.id.btn_volver);
 
+        recycler.setLayoutManager(new LinearLayoutManager(this));
 
         Usuario usuario = Usuario.getInstance();
         String tipoUser = usuario.getTipo_usuario().toLowerCase();
@@ -78,10 +81,19 @@ public class Consultar_Encuesta_Satisfaccion extends AppCompatActivity {
             if (e.isVisible()) encuestasFiltradas.add(e);
         }
 
+        AdaptadorEncuestaResumen adapter = new AdaptadorEncuestaResumen(encuestasFiltradas, new AdaptadorEncuestaResumen.OnEncuestaClickListener() {
+            @Override
+            public void onEncuestaClick(Encuesta encuesta) {
+
+            }
+        });
+        recycler.setAdapter(adapter);
+        btnVolver.setOnClickListener(v -> finish());
         // Cargo el adaptador con la lista encuestasFiltradas !!!
+        /*
         AdaptadorEncuesta adaptador = new AdaptadorEncuesta(this, encuestasFiltradas);
         listaEncuestas.setAdapter(adaptador);
 
-        btnVolver.setOnClickListener(v -> finish());
+       */
     }
 }
