@@ -1,10 +1,10 @@
 package com.example.hotel_hw_1.adaptador;
-
 /**
  * Autor: K. Jabier O'Reilly
- *
- */
+ * Proyecto: Gestión de Hotel - Práctica 1ª Evaluación (PMDM 2025/2026)
+ * Clase: Encuesta.java
 
+ */
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +23,7 @@ public class AdaptadorEncuestaResumen extends RecyclerView.Adapter<AdaptadorEncu
     private List<Encuesta> listaEncuestas;
     private OnEncuestaClickListener listener;
 
-
-
+    // Interfaz para gestionar el click en la tarjeta
     public interface OnEncuestaClickListener {
         void onEncuestaClick(Encuesta encuesta);
     }
@@ -37,6 +36,7 @@ public class AdaptadorEncuestaResumen extends RecyclerView.Adapter<AdaptadorEncu
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_encuesta_dash, parent, false);
         return new ViewHolder(view);
     }
@@ -45,15 +45,24 @@ public class AdaptadorEncuestaResumen extends RecyclerView.Adapter<AdaptadorEncu
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Encuesta encuesta = listaEncuestas.get(position);
 
-        // Si usas el campo "visible" para filtrar roles, puedes ocultar la vista aquí
-        // if (!encuesta.isVisible()) { ... }
-
+        // 1. Asignar el nombre de la categoria de la Encuesta
         holder.txtCategoria.setText(encuesta.getCategoria());
-        holder.ratingBar.setRating(encuesta.getPromedio());
-        holder.txtPromedio.setText("Promedio: " + encuesta.getPromedio());
-        holder.txtCantidad.setText(encuesta.getCantidad() + " encuestas registradas");
 
-        holder.itemView.setOnClickListener(v -> listener.onEncuestaClick(encuesta));
+        // 2. Asignar Promedio y Estrellas
+        holder.txtPromedio.setText("Promedio: " + encuesta.getPromedio());
+        holder.ratingBar.setRating(encuesta.getPromedio());
+
+        // 3. Asignar Cantidad de votos
+        holder.txtCantidad.setText(encuesta.getCantidad() + " opiniones");
+        String textoResumen = encuesta.getCantidad() + " encuestas | " + encuesta.getCantidadOpiniones() + " opiniones";
+        holder.txtCantidad.setText(textoResumen);
+
+        // 4. Configurar el Click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onEncuestaClick(encuesta); // ¡Aquí pasa el ID clave!
+            }
+        });
     }
 
     @Override
@@ -67,6 +76,7 @@ public class AdaptadorEncuestaResumen extends RecyclerView.Adapter<AdaptadorEncu
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             txtCategoria = itemView.findViewById(R.id.txt_categoria);
             txtPromedio = itemView.findViewById(R.id.txt_promedio);
             txtCantidad = itemView.findViewById(R.id.txt_cantidad);

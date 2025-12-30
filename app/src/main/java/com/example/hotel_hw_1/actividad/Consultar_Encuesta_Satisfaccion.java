@@ -1,13 +1,13 @@
 /**
  * Autor: K. Jabier O'Reilly
- * Proyecto: Gestión de Hotel - Práctica 1ª Evaluación (PMDM 2025/2026)
- * Clase: Consultar_Encuestas_Satisfaccion.java
- *
+
  */
 
 package com.example.hotel_hw_1.actividad;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import com.example.hotel_hw_1.R;
 import com.example.hotel_hw_1.adaptador.AdaptadorEncuestaResumen;
 import com.example.hotel_hw_1.modelo.Encuesta;
 import com.example.hotel_hw_1.modelo.Usuario;
+import com.example.hotel_hw_1.repositorio.EncuestaMetricasRepository;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -33,67 +34,80 @@ public class Consultar_Encuesta_Satisfaccion extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_consultar_encuestas_satisfaccion);
 
-         recycler = findViewById(R.id.lista_encuestas);
-         btnVolver = findViewById(R.id.btn_volver);
+        recycler = findViewById(R.id.lista_encuestas);
+        btnVolver = findViewById(R.id.btn_volver);
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
+        // 1. Tomo el rol segun el usuario
         Usuario usuario = Usuario.getInstance();
-        String tipoUser = usuario.getTipo_usuario().toLowerCase();
+        String tipoUser = (usuario.getTipo_usuario() != null) ? usuario.getTipo_usuario().toLowerCase() : "gerente";
 
-        // simulo los datos de las encuestas recibidas mdte el array
-        List<Encuesta> encuestas = new ArrayList<>();
-        encuestas.add(new Encuesta("Limpieza habitación", 4.3f, 10, true));
-        encuestas.add(new Encuesta("Limpieza planta", 4.1f, 9, true));
-        encuestas.add(new Encuesta("Limpieza vestíbulo", 4.4f, 8, true));
-        encuestas.add(new Encuesta("Atención personal limpieza", 4.6f, 12, true));
-        encuestas.add(new Encuesta("Atención personal mantenimiento", 4.2f, 7, true));
-        encuestas.add(new Encuesta("Atención en recepción", 4.8f, 15, true));
-        encuestas.add(new Encuesta("Servicio mantenimiento durante estancia", 4.0f, 5, true));
+        // 2. Inicializo mi Repositorio con los datos de Firebase
+        EncuestaMetricasRepository.inicializar();
 
-        // Filtro las encuestas segun el rol. para ello declaro las encuestas que seran o no visibles
-        for (Encuesta e : encuestas) {
-            switch (tipoUser) {
-                case "limpieza":
-                    if (!e.getCategoria().toLowerCase().contains("limpieza"))
-                        e.setVisible(false);
-                    break;
+        // 3. Suscribirse para recibir los datos cuando lleguen
+            List<Encuesta> encuestasReales = EncuestaMetricasRepository.getListaMetricas();
 
-                case "mantenimiento":
-                    if (!e.getCategoria().toLowerCase().contains("mantenimiento"))
-                        e.setVisible(false);
-                    break;
+                // 4. Aplicamos logica del filtrado segun rol
+                List<Encuesta> encuestasFiltradas = new ArrayList<>();
 
-                case "recepcionista":
-                    if (!e.getCategoria().toLowerCase().contains("recepción"))
-                        e.setVisible(false);
-                    break;
+                for (Encuesta e : encuestasReales) {
+                    //Por defecto visible, y despues comenzamos a cambiar
+                    boolean esVisible = true;
+                    String nombreCategoria = e.getCategoria().toLowerCase();
 
-                case "gerente":
-                    e.setVisible(true); // lo ve todo
-                    break;
+                    switch (tipoUser) {
+                        case "limpieza":
+                            // Solo ve cosas que contengan "limpieza"
+                            if (!nombreCategoria.contains("limpieza")) esVisible = false;
+                            break;
+
+                        case "mantenimiento":
+                            // Solo ve cosas que contengan "mantenimiento"
+                            if (!nombreCategoria.contains("mantenimiento")) esVisible = false;
+                            break;
+
+                        case "recepcionista":
+
+                            if (!nombreCategoria.contains("recepción") && !nombreCategoria.contains("recepcion")) esVisible = false;
+                            break;
+
+                        case "gerente":
+                            esVisible = true; // Gerente ve todo
+                            break;
+
+                        default:
+                            esVisible = true; // Por seguridad
+                            break;
+                    }
+
+                    // Uana vez filtrada el usuario añadimos la encuesta a la lista de filtrados
+                    if (esVisible) {
+                        encuestasFiltradas.add(e);
+                    }
+                }
+
+                // 5. Configuro ya el adaptador con a lista filtrada
+                AdaptadorEncuestaResumen adapter = new AdaptadorEncuestaResumen(encuestasFiltradas, new AdaptadorEncuestaResumen.OnEncuestaClickListener() {
+                    @Override
+                    public void onEncuestaClick(Encuesta encuesta) {
+                        Intent intent = new Intent(Consultar_Encuesta_Satisfaccion.this, DetalleEncuestaActivity.class);
+
+                        // Pasamos los datos de que escuesta queremos mostrar!!
+                        intent.putExtra("ID_CAT", encuesta.getId());
+                        intent.putExtra("NOMBRE_CAT", encuesta.getCategoria());
+
+                        startActivity(intent);
+
+                    }
+                });
+
+                recycler.setAdapter(adapter);
+
+                btnVolver.setOnClickListener(v -> finish());
             }
-        }
 
-        // Finalmente hago la lista con lo que esta visible !!
-        List<Encuesta> encuestasFiltradas = new ArrayList<>();
-        for (Encuesta e : encuestas) {
-            if (e.isVisible()) encuestasFiltradas.add(e);
-        }
 
-        AdaptadorEncuestaResumen adapter = new AdaptadorEncuestaResumen(encuestasFiltradas, new AdaptadorEncuestaResumen.OnEncuestaClickListener() {
-            @Override
-            public void onEncuestaClick(Encuesta encuesta) {
-
-            }
-        });
-        recycler.setAdapter(adapter);
-        btnVolver.setOnClickListener(v -> finish());
-        // Cargo el adaptador con la lista encuestasFiltradas !!!
-        /*
-        AdaptadorEncuesta adaptador = new AdaptadorEncuesta(this, encuestasFiltradas);
-        listaEncuestas.setAdapter(adaptador);
-
-       */
     }
-}
+

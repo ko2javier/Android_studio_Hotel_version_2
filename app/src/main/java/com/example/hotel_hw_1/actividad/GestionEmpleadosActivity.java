@@ -86,9 +86,8 @@ public class GestionEmpleadosActivity extends AppCompatActivity {
     }
 
     /**
-     * IMPORTANTE: Al usar un sistema de caché, cuando volvemos de
-     * crear/editar un empleado, onResume se ejecuta.
-     * Aprovechamos para refrescar la lista visualmente.
+    Utilizamos el metodo OnResume para recargar la vista con  lo nusvos
+     datos que puedan estar en la lista!!
      */
     @Override
     protected void onResume() {

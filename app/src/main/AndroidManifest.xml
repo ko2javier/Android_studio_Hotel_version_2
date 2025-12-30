@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hotel_Hw_1">
         <activity
+            android:name=".actividad.DetalleEncuestaActivity"
+            android:exported="false" />
+        <activity
             android:name=".actividad.CheckInActivity"
             android:exported="false" />
         <activity
