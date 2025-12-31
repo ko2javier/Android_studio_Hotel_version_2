@@ -5,6 +5,7 @@
 
 package com.example.hotel_hw_1.actividad;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -74,11 +75,13 @@ public class Consultar_Estado_Reserva extends AppCompatActivity {
 
             @Override
             public void onValorarClick(Reserva reserva) {
+                /*
                 Snackbar.make(Consultar_Estado_Reserva.this.getCurrentFocus(),
                         "Abriendo encuesta para habitación " + reserva.getHabitacion(), Snackbar.LENGTH_LONG)
-                                .show();
-
-                // Aquí iría el Intent a la Activity de Encuesta
+                                .show();*/
+                    Intent i = new Intent(Consultar_Estado_Reserva.this, Crear_Encuesta_Satisfaccion.class);
+                    startActivity(i);
+                
             }
         });
 

@@ -9,6 +9,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.hotel_hw_1.modelo.Tarea;
+import com.example.hotel_hw_1.modelo.Usuario;
+import com.example.hotel_hw_1.modelo.Huesped;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -119,4 +122,67 @@ public class TareaRepository {
                 .addOnSuccessListener(v -> callback.onSuccess("Tarea asignada a " + nombreEmpleado))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
+
+    /**
+     * Verifica si hay tareas de mantenimiento que afecten a este HUESPED.
+     * Recibe el objeto Huesped completo con sus fechas y habitación reales.
+     */
+    public static boolean verificarMantenimientoHuesped(Huesped huesped) {
+        // Validación de seguridad
+        if (huesped == null) return false;
+
+        // 1. Obtener el rango de fechas de la estancia del huésped
+        long[] rangoFechas = huesped.obtenerRangoFechasEnMilisegundos();
+        long fechaInicio = rangoFechas[0];
+        long fechaFin = rangoFechas[1];
+
+        // 2. Datos de ubicación del huésped
+
+        String miPlanta = "0";
+        String miHab = huesped.getHabitacion();
+
+        // obtengo la planta
+        if (miHab != null && !miHab.isEmpty()) {
+            miPlanta = String.valueOf(miHab.charAt(0));
+        }
+
+
+        // 3. Recorrer la lista de tareas en CACHÉ
+        // (Asumimos que getListaTareas() devuelve la lista completa de tareas cargadas)
+        for (Tarea t : getTodasLasTareas()) {
+
+            // A. FILTRO TIPO: Solo nos interesa "Mantenimiento"
+            if ("Mantenimiento".equalsIgnoreCase(t.getTipoServicio())) {
+
+                // B. FILTRO FECHA: ¿Ocurrió durante su estancia?
+                if (t.getTimestamp() >= fechaInicio && t.getTimestamp() <= fechaFin) {
+
+                    // C. FILTRO UBICACIÓN (Jerárquico)
+
+                    // Paso 1: La PLANTA tiene que coincidir obligatoriamente.
+                    if (t.getPlanta() != null && t.getPlanta().equals(miPlanta)) {
+
+                        // Paso 2: Analizamos la HABITACIÓN de la tarea
+                        String taskHab = t.getNumeroHabitacion();
+
+                        // ¿Es una tarea específica de una habitación?
+                        if (taskHab != null && !taskHab.trim().isEmpty() && taskHab.equals(miHab)) {
+
+                                return true; // ¡Te afecta!
+
+                        } else {
+                            // NO: El campo habitación está vacío.
+                            // Significa que es una tarea general de planta (ej: pintar pasillo).
+                            // Como estoy en esa planta, me afecta.
+                            return true; // ¡Te afecta!
+                        }
+                    }
+                }
+            }
+        }
+
+        // Si terminamos el bucle y nada coincidió
+        return false;
+    }
+
 }

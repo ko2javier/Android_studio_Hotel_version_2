@@ -5,16 +5,24 @@
 
 package com.example.hotel_hw_1.actividad;
 
+import static com.example.hotel_hw_1.modelo.Validacion.validarHabitacionObligatoria;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
+import com.example.hotel_hw_1.modelo.Huesped;
 import com.example.hotel_hw_1.modelo.Tarea;
+import com.example.hotel_hw_1.modelo.Usuario;
+import com.example.hotel_hw_1.repositorio.HabitacionRepository;
+import com.example.hotel_hw_1.repositorio.HuespedRepository;
 import com.example.hotel_hw_1.repositorio.TareaRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,6 +38,7 @@ public class Solicitar_Tarea extends AppCompatActivity {
 
     private MaterialAutoCompleteTextView spinnerZona, spinnerPasillo, spinnerPlanta;
     private MaterialButton btnEnviar, btnVolver;
+    private String  habitacionAsignada="";
 
     // Arrays de datos
     private static final String[] pasillos = {"Norte", "Sur", "Este", "Oeste"};
@@ -130,6 +139,27 @@ public class Solicitar_Tarea extends AppCompatActivity {
         }
     }
 
+    private void realizarAutoCheckIn(Usuario usuario,  String habitacionAsignada) {
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaHoy = sdf.format(new java.util.Date());
+
+        Huesped nuevoHuesped = new Huesped( usuario.getNombre(), usuario.getApellidos(),
+                usuario.getTelefono(), habitacionAsignada,fechaHoy);
+
+        HuespedRepository.crearHuesped(nuevoHuesped, new HuespedRepository.HuespedCallback() {
+            @Override
+            public void onSuccess(String mensaje) {
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
+    }
     // LÓGICA DE ENVÍO A FIREBASE
     private void enviarSolicitud(View v) {
         String tipoServicio = (radioGroupTarea.getCheckedRadioButtonId() == R.id.rb_limpieza) ? "Limpieza" : "Mantenimiento";
@@ -137,6 +167,10 @@ public class Solicitar_Tarea extends AppCompatActivity {
         String plantaFinal = "";
         String habitacionFinal = "";
         String zonaFinal = "";
+        Usuario usuario = Usuario.getInstance();
+        // compruebo si el huesped esta check in o no !!
+        Huesped huespedExistente = HuespedRepository.buscarHuespedActivo( usuario.getNombre(),
+                usuario.getApellidos());
 
         // RECOGIDA DE DATOS
         if (radioGroupTipoTarea.getCheckedRadioButtonId() == R.id.rb_pasillo) {
@@ -145,15 +179,15 @@ public class Solicitar_Tarea extends AppCompatActivity {
             plantaFinal = spinnerPlanta.getText().toString(); // Del Spinner Planta
             zonaFinal = spinnerPasillo.getText().toString();  // Del Spinner Pasillo
             habitacionFinal = "";
+            habitacionAsignada= HabitacionRepository.buscarPrimeraLibre( Integer.parseInt(plantaFinal)
+                    , "Doble");
         } else {
             // CASO HABITACIÓN
             tipoUbicacion = "Habitacion";
             habitacionFinal = etx_numero_room.getText().toString().trim();
-
+            habitacionAsignada= habitacionFinal;
             // Validación manual rápida
-            if (habitacionFinal.isEmpty()) {
-                txt_error_habitacion.setVisibility(View.VISIBLE);
-                etx_numero_room.setError("Campo obligatorio");
+            if (!validarHabitacionObligatoria(v,etx_numero_room,txt_error_habitacion) ) {
                 return;
             } else {
                 txt_error_habitacion.setVisibility(View.GONE);
@@ -165,13 +199,7 @@ public class Solicitar_Tarea extends AppCompatActivity {
         }
 
         // CREAR OBJETO TAREA
-        Tarea nueva = new Tarea(
-                tipoServicio,
-                tipoUbicacion,
-                plantaFinal,
-                habitacionFinal,
-                zonaFinal
-        );
+        Tarea nueva = new Tarea(tipoServicio, tipoUbicacion,plantaFinal, habitacionFinal,zonaFinal);
 
         // BLOQUEAR BOTÓN Y ENVIAR
         btnEnviar.setEnabled(false);
@@ -182,6 +210,9 @@ public class Solicitar_Tarea extends AppCompatActivity {
                 Snackbar.make(v, mensaje, Snackbar.LENGTH_SHORT).show();
                 etx_numero_room.setText(""); // Limpiar
                 btnEnviar.setEnabled(true);
+                if (huespedExistente == null) {
+                    realizarAutoCheckIn(usuario, habitacionAsignada);
+                }
             }
 
             @Override

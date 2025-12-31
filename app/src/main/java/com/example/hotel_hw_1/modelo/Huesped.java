@@ -59,5 +59,58 @@ public class Huesped implements Serializable {
     public String getEstado() {
         return checkInActivo ? "Hospedado" : "Check-Out";
     }
+    // Metodo para registrar salida
+    public void registrarSalida() {
+        // 1. Obtengo  fecha de hoy como String
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaHoy = sdf.format(new java.util.Date());
+
+        // 2. Concateno "FechaEntrada|FechaSalida"
+        //  Asumo que fechaEntrada ya tiene la fecha de llegada
+        if (this.fechaEntrada != null && !this.fechaEntrada.contains("|")) {
+            this.fechaEntrada = this.fechaEntrada + "|" + fechaHoy;
+        }
+
+        // 3. Desactivamos el check-in
+        this.checkInActivo = false;
+    }
+    /*Metodo para obtener el rango de fechas en millisegundos
+    * tomando los valores de FechaEntrada*/
+    public long[] obtenerRangoFechasEnMilisegundos() {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        long inicio = 0;
+        long fin = System.currentTimeMillis(); // Por defecto "ahora"
+
+        try {
+            if (fechaEntrada != null) {
+                if (fechaEntrada.contains("|")) {
+                    // CASO 1: Ya hizo Check-out ("12-12-2025|01-01-2026")
+                    String[] partes = fechaEntrada.split("\\|");
+                    inicio = sdf.parse(partes[0]).getTime();
+                    fin = sdf.parse(partes[1]).getTime();
+                } else {
+                    // CASO 2: Aún está dentro ("12-12-2025") no ha salido !!
+                    inicio = sdf.parse(fechaEntrada).getTime();
+                    // El fin sigue siendo "ahora"
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new long[]{inicio, fin};
+    }
+
+    public boolean esMismoPersona(String nombreHuesped, String apellidosHuesped) {
+
+        /*Elimino espacios si es que los hay en lo que necesito comparar y devuelvo true
+         si coincide nombre y apellidos
+         esto es para comparar un usuario con un huesped
+         */
+        boolean nombreCoincide = this.nombre.trim().equalsIgnoreCase(nombreHuesped.trim());
+        boolean apellidoCoincide = this.apellidos.trim().equalsIgnoreCase(apellidosHuesped.trim());
+
+        return nombreCoincide && apellidoCoincide;
+    }
 }
+
 

@@ -61,7 +61,7 @@ public class HuespedRepository {
     }
 
 
-    // MÉTODOS DE CONSULTA (Lectura)
+    // Metodos de lectura
 
     /**
      * Retorna todos los huéspedes de la base de datos.
@@ -88,7 +88,7 @@ public class HuespedRepository {
      */
     public static Huesped buscarHuespedActivo(String nombre, String apellidos) {
         for (Huesped h : listaHuespedesCache) {
-            // Usamos equalsIgnoreCase para evitar problemas con mayúsculas/minúsculas
+
             if (h.getNombre().equalsIgnoreCase(nombre) &&
                     h.getApellidos().equalsIgnoreCase(apellidos) &&
                     h.isCheckInActivo()) {
@@ -125,5 +125,14 @@ public class HuespedRepository {
         dbHuespedes.push().setValue(huesped)
                 .addOnSuccessListener(v -> callback.onSuccess("Huésped registrado correctamente"))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public static Huesped buscarHuespedPorNombre(String nombre, String apellidos) {
+        for (Huesped h : listaHuespedesCache) {
+            if (h.esMismoPersona(nombre, apellidos)) {
+                return h;
+            }
+        }
+        return null; // No está en la lista de huéspedes activos o no activos !!!
     }
 }

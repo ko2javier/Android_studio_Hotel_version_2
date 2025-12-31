@@ -1,61 +1,386 @@
-
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF9E8">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linear_hijo_scroll"
+        android:id="@+id/linear_padre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FAF9E8"
-        android:gravity="center"
-        android:padding="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-
-        <!-- Título -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_titulo_encuesta"
+        <TextView
+            android:id="@+id/txt_titulo_pantalla_encuestas"
+            android:text="Encuesta de Satisfacción"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Encuesta de Satisfacción"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textColor="#C11C1C"
-            android:layout_marginTop="20dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#C62828"
             android:layout_marginBottom="20dp"/>
 
-
-        <ListView
-            android:id="@+id/lv_encuestas"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_habitacion"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="8dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
 
+            <LinearLayout
+                android:id="@+id/linear_habitacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
 
-        <!-- Botón Enviar -->
+                <TextView
+                    android:id="@+id/txt_limpieza_habitacion_header"
+                    android:text="✨ Limpieza de la habitación"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_habitacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_habitacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_planta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/linear_limpieza_planta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/txt_limpieza_planta_header"
+                    android:text="Limpieza de la planta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_planta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:rating="0"
+                    android:stepSize="0.5"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_planta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_vestibulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/linear_limpieza_vestibulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/txt_limpieza_vestibulo_header"
+                    android:text="Limpieza del vestíbulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_vestibulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_vestibulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_personal_limpieza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/linear_atencion_limpieza"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/txt_personal_limpieza"
+                    android:text="Atencion del personal de Limpieza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_personal_limpieza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_personal_limpieza"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_personal_mantenimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/linear_atencion_mmto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/txt_header_atencion_mmto"
+                    android:text=" Personal de Mantenimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/txt_atencion_mmto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(Atencion del personal de mantenimiento)"
+                    android:textSize="12sp"
+                    android:textColor="#777"
+                    android:layout_marginBottom="5dp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_personal_mantenimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_personal_mantenimiento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_recepcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/linear_atencion_recepcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/txt_atenion_recepcion"
+                    android:text="Atención en Recepción"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_recepcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_recepcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_servicio_mantenimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/linear_reparacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/txt_header_reparacion"
+                    android:text=" Servicio de Mantenimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/txt_reparacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(Valore solo si solicitó una reparación)"
+                    android:textSize="12sp"
+                    android:textColor="#777"
+                    android:layout_marginBottom="5dp"/>
+
+                <RatingBar
+                    android:id="@+id/rating_servicio_mantenimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:rating="0"
+                    android:stepSize="0.5"
+                    android:numStars="5"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Comentario (Opcional)"
+                    android:layout_marginTop="5dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_comentario_servicio_mantenimiento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_enviar_encuesta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ENVIAR ENCUESTA"
             android:backgroundTint="#4CAF50"
-            android:textColor="#FFF"
-            android:textStyle="bold"/>
+            android:padding="12dp"
+            android:layout_marginTop="10dp"/>
 
-
-<com.google.android.material.button.MaterialButton
-    android:id="@+id/btn_volver_encuesta"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="VOLVER"
-    android:backgroundTint="#1a759f"
-    android:textColor="#FFF"
-    android:textStyle="bold"/>
-
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_volver_encuesta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VOLVER"
+            android:backgroundTint="#0D47A1"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
-
+</ScrollView>

@@ -5,108 +5,166 @@
 
 package com.example.hotel_hw_1.actividad;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hotel_hw_1.R;
-import com.example.hotel_hw_1.adaptador.AdaptadorEncuestaEditable;
-import com.example.hotel_hw_1.modelo.Encuesta;
+import com.example.hotel_hw_1.modelo.Huesped;
+import com.example.hotel_hw_1.modelo.Usuario;
+import com.example.hotel_hw_1.repositorio.HuespedRepository;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.example.hotel_hw_1.repositorio.TareaRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Crear_Encuesta_Satisfaccion extends AppCompatActivity {
-    // definimos variables
-    private ListView lvEncuestas;
-    private AdaptadorEncuestaEditable adaptador;
-    private MaterialButton btnEnviar, btnVolver;
+
+    // Variables de UI
+    private RatingBar rbHab, rbPlanta, rbVest, rbPerLimp, rbPerMant, rbRecep, rbServMant;
+    private EditText etHab, etPlanta, etVest, etPerLimp, etPerMant, etRecep, etServMant;
+    private MaterialCardView cardServicioMantenimiento;
+
+    // Base de datos
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_encuesta_satisfaccion);
 
-        // Referencio las variables con ID
-        lvEncuestas = findViewById(R.id.lv_encuestas);
-        btnEnviar = findViewById(R.id.btn_enviar_encuesta);
-        btnVolver = findViewById(R.id.btn_volver_encuesta);
+        mDatabase = FirebaseDatabase.getInstance().getReference("encuestas_detalle");
 
-        // Creamos la lista y añadimos registros
-        List<Encuesta> listaPreguntas = new ArrayList<>();
-        listaPreguntas.add(new Encuesta("Limpieza de la habitación", 0, 0, true));
-        listaPreguntas.add(new Encuesta("Limpieza de la planta", 0, 0, true));
-        listaPreguntas.add(new Encuesta("Limpieza del vestíbulo", 0, 0, true));
-        listaPreguntas.add(new Encuesta("Atención del personal de limpieza", 0, 0, true));
-        listaPreguntas.add(new Encuesta("Atención del personal de mantenimiento", 0, 0, true));
-        listaPreguntas.add(new Encuesta("Atención en recepción", 0, 0, true));
-        listaPreguntas.add(new Encuesta("Servicio de mantenimiento durante su estancia", 0, 0, true));
+        inicializarVistas();
+        configurarVisibilidadMantenimiento();
 
-        // Configuramos adaptador con la lista creada
-        adaptador = new AdaptadorEncuestaEditable(this, listaPreguntas);
-        lvEncuestas.setAdapter(adaptador);
+        MaterialButton btnEnviar = findViewById(R.id.btn_enviar_encuesta);
+        MaterialButton btnVolver = findViewById(R.id.btn_volver_encuesta);
 
-        // Botón Enviar
-        btnEnviar.setOnClickListener(v -> {
-            mostrar_resultados_encuesta(v);
-        });
-
-        // Botón Volver
+        btnEnviar.setOnClickListener(v -> enviarEncuesta());
         btnVolver.setOnClickListener(v -> finish());
     }
 
-private void mostrar_resultados_encuesta(View v) {
-    List<Encuesta> resultados = adaptador.getResultados();
+    private void inicializarVistas() {
 
-    List<Integer> incompletas = new ArrayList<>();
-    float suma = 0;
+        rbHab = findViewById(R.id.rating_habitacion);
+        rbPlanta = findViewById(R.id.rating_planta);
+        rbVest = findViewById(R.id.rating_vestibulo);
+        rbPerLimp = findViewById(R.id.rating_personal_limpieza);
+        rbRecep = findViewById(R.id.rating_recepcion);
 
-    // Validar que no haya ratings vacíos (0)
-    for (int i = 0; i < resultados.size(); i++) {
-        Encuesta e = resultados.get(i);
-        if (e.getPromedio() == 0f) {
-            incompletas.add(i + 1);
+        rbPerMant = findViewById(R.id.rating_personal_mantenimiento);
+
+        // Esta tarjeta es especial porque esta oculta
+        rbServMant = findViewById(R.id.rating_servicio_mantenimiento);
+        cardServicioMantenimiento = findViewById(R.id.card_servicio_mantenimiento);
+
+        // Enlazo EditTexts (Comentarios)
+        etHab = findViewById(R.id.edit_comentario_habitacion);
+        etPlanta = findViewById(R.id.edit_comentario_planta);
+        etVest = findViewById(R.id.edit_comentario_vestibulo);
+        etPerLimp = findViewById(R.id.edit_comentario_personal_limpieza);
+        etPerMant = findViewById(R.id.edit_comentario_personal_mantenimiento);
+        etRecep = findViewById(R.id.edit_comentario_recepcion);
+        etServMant = findViewById(R.id.edit_comentario_servicio_mantenimiento);
+    }
+
+    private void configurarVisibilidadMantenimiento() {
+        // 1. Obtener datos del usuario logueado
+        Usuario usuario = Usuario.getInstance();
+        // 2- Obtengo los datos del huesped loguedo
+        Huesped miHuesped = HuespedRepository.buscarHuespedPorNombre(
+                usuario.getNombre(),
+                usuario.getApellidos() );
+        /* Verifico si solicito mantenimiento */
+        boolean mostrarTarjeta = false;
+        mostrarTarjeta = TareaRepository. verificarMantenimientoHuesped(miHuesped);
+
+        if (mostrarTarjeta) {
+            cardServicioMantenimiento.setVisibility(View.VISIBLE);
         } else {
-            suma += e.getPromedio();
+            cardServicioMantenimiento.setVisibility(View.GONE);
         }
     }
 
-    // Si hay encuestas sin valorar
-    if (!incompletas.isEmpty()) {
-        // Paso 2  Mostrar alerta con detalle
-        StringBuilder msg = new StringBuilder("Faltan por valorar:\n");
-        for (int n : incompletas) msg.append("• Pregunta ").append(n).append("\n");
+    private void enviarEncuesta() {
+        // --- VALIDACIÓN ---
 
-        new AlertDialog.Builder(this)
-                .setTitle("Encuesta incompleta")
-                .setMessage(msg.toString())
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Aceptar", null)
-                .show();
+        // 1. Validar las categorías obligatorias (Rating > 0)
+        if (rbHab.getRating() == 0 || rbPlanta.getRating() == 0 || rbVest.getRating() == 0 ||
+                rbPerLimp.getRating() == 0 || rbPerMant.getRating() == 0 || rbRecep.getRating() == 0) {
+            Snackbar.make(this.getCurrentFocus(),"Por favor, valore todas las categorías visibles ",
+                    Snackbar.LENGTH_LONG ).show();
 
+            return;
+        }
 
-        return;
+        // 2. Validar la categoría OPCIONAL de mantenimiento
+        // Solo validamos si la tarjeta está VISIBLE
+        if (cardServicioMantenimiento.getVisibility() == View.VISIBLE) {
+            if (rbServMant.getRating() == 0) {
+                Snackbar.make(this.getCurrentFocus(),"Por favor, valore todas las categorías visibles ",
+                        Snackbar.LENGTH_LONG ).show();
+                return;
+            }
+        }
+
+        // --- PREPARAR DATOS (JSON) ---
+        Map<String, Object> datos = new HashMap<>();
+
+        // Datos generales
+        datos.put("idReserva", "reserva_" + System.currentTimeMillis()); // O usa Usuario.getInstance().getIdReserva()
+        datos.put("fecha", System.currentTimeMillis());
+
+        // Categorías fijas
+        datos.put("cat_Limpieza_Habitacion_nota", rbHab.getRating());
+        datos.put("cat_Limpieza_Habitacion_comentario", etHab.getText().toString());
+
+        datos.put("cat_Limpieza_Planta_nota", rbPlanta.getRating());
+        datos.put("cat_Limpieza_Planta_comentario", etPlanta.getText().toString());
+
+        datos.put("cat_Limpieza_Vestibulo_nota", rbVest.getRating());
+        datos.put("cat_Limpieza_Vestibulo_comentario", etVest.getText().toString());
+
+        datos.put("cat_Atencion_Personal_Limpieza_nota", rbPerLimp.getRating());
+        datos.put("cat_Atencion_Personal_Limpieza_comentario", etPerLimp.getText().toString());
+
+        datos.put("cat_Atencion_Personal_Mantenimiento_nota", rbPerMant.getRating());
+        datos.put("cat_Atencion_Personal_Mantenimiento_comentario", etPerMant.getText().toString());
+
+        datos.put("cat_Atencion_en_Recepcion_nota", rbRecep.getRating());
+        datos.put("cat_Atencion_en_Recepcion_comentario", etRecep.getText().toString());
+
+        // Categoría Dinámica
+        if (cardServicioMantenimiento.getVisibility() == View.VISIBLE) {
+            datos.put("cat_Servicio_de_Mantenimiento_nota", rbServMant.getRating());
+            datos.put("cat_Servicio_de_Mantenimiento_comentario", etServMant.getText().toString());
+        } else {
+            // Si no se mostró, enviamos 0 y vacío para mantener coherencia en la BD
+            datos.put("cat_Servicio_de_Mantenimiento_nota", 0f);
+            datos.put("cat_Servicio_de_Mantenimiento_comentario", "");
+        }
+
+        // --- ENVIAR A FIREBASE ---
+        mDatabase.push().setValue(datos)
+                .addOnSuccessListener(aVoid -> {
+                    Snackbar.make(this.getCurrentFocus(),"¡Encuesta enviada correctamente!", Snackbar.LENGTH_LONG ).show();
+
+                    finish(); // Cerrar actividad y volver atrás
+                })
+                .addOnFailureListener(e -> {
+                    Snackbar.make(this.getCurrentFocus(),"Error al enviar: ",
+                            Snackbar.LENGTH_LONG ).show();
+
+                });
     }
-
-    // Paso 3 . Si todas están completas, calcular promedio general
-    float promedioGeneral = suma / resultados.size();
-
-    new AlertDialog.Builder(this)
-            .setTitle("Encuesta enviada")
-            .setMessage("Gracias por su valoración.\n\nPromedio general: "
-                    + String.format("%.1f", promedioGeneral) + " ★")
-            .setPositiveButton("Aceptar", (dialog, which) ->
-                    Snackbar.make(v, "Encuesta registrada correctamente", Snackbar.LENGTH_LONG).show()
-            )
-            .show();
-
-    v.postDelayed(this::finish, 2800);
-}
-
 }
