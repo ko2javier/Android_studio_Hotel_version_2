@@ -123,9 +123,9 @@ public class Consultar_Estado_Reserva extends AppCompatActivity {
         lista.add(new Reserva("dummy1", "Juan", "101", "12-10-2025", "15-10-2025",
                 "Doble", "Spa", "Media Pensión", "CANCELADA"));
 
-        //  Pendiente (Verde y con posibilidad de Cancelar)
+        /*
         lista.add(new Reserva("dummy2", "Juan", "102", "09-10-2025", "10-10-2025",
-                "Simple", "Sin servicios", "Solo Alojamiento", "PENDIENTE"));
+                "Simple", "Sin servicios", "Solo Alojamiento", "PENDIENTE"));*/
 
         // Objeto 3: Completada, la que me sirve para Realizar encuestas
         lista.add(new Reserva("dummy3", "Juan", "205", "01-01-2024", "05-01-2024",
