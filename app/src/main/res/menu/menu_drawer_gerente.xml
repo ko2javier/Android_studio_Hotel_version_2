@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="Consultar/Editar Perfil" />
+
+        <item
+            android:id="@+id/nav_ocupacion"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Ocupación del Hotel" />
+
+        <item
+            android:id="@+id/nav_huespedes"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="Listado Huéspedes" />
+
+        <item
+            android:id="@+id/nav_tareas"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="Tareas Pendientes" />
+
+        <item
+            android:id="@+id/nav_encuestas"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Consultar Encuestas" />
+
+        <item
+            android:id="@+id/nav_empleados"
+            android:icon="@android:drawable/ic_menu_info_details"
+            android:title="Listado Empleados" />
+    </group>
+
+    <item android:title="Opciones de Salida">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="Cerrar Sesión" />
+        </menu>
+    </item>
+
+</menu>

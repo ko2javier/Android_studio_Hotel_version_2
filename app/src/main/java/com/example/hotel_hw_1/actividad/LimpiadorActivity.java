@@ -38,7 +38,7 @@ public class LimpiadorActivity extends AppCompatActivity implements NavigationVi
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // 3. INICIALIZAR EL MENÚ LATERAL
+        //   Inicializo el menú lateral (Drawer)
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 

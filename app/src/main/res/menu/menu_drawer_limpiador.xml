@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_perfil"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@drawable/outline_asterisk_24"
             android:title="Consultar Perfil" />
 
         <item
