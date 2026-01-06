@@ -8,29 +8,26 @@
             android:title="Consultar/Editar Perfil" />
 
         <item
-            android:id="@+id/nav_ocupacion"
+            android:id="@+id/nav_add_reservas"
             android:icon="@android:drawable/ic_menu_today"
-            android:title="Ocupación del Hotel" />
+            android:title="Adicionar Reservas al hotel" />
 
         <item
-            android:id="@+id/nav_huespedes"
+            android:id="@+id/nav_check_status_realizadas"
             android:icon="@android:drawable/ic_menu_sort_by_size"
-            android:title="Listado Huéspedes" />
+            android:title="Chequear Estado Reservas Hotel" />
 
         <item
-            android:id="@+id/nav_tareas"
+            android:id="@+id/nav_tareas_adicionales"
             android:icon="@android:drawable/ic_menu_edit"
-            android:title="Tareas Pendientes" />
+            android:title="Solicitar Tareas Adicionales" />
 
         <item
-            android:id="@+id/nav_encuestas"
+            android:id="@+id/nav_realizar_encuestas_al_hotel"
             android:icon="@android:drawable/btn_star_big_on"
-            android:title="Consultar Encuestas" />
+            android:title="Realizar Encuestas" />
 
-        <item
-            android:id="@+id/nav_empleados"
-            android:icon="@android:drawable/ic_menu_info_details"
-            android:title="Listado Empleados" />
+
     </group>
 
     <item android:title="Opciones de Salida">

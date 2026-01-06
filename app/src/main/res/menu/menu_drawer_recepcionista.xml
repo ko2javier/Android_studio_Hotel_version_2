@@ -18,9 +18,9 @@
             android:title="Listado Huéspedes" />
 
         <item
-            android:id="@+id/nav_tareas"
+            android:id="@+id/nav_reservas"
             android:icon="@android:drawable/ic_menu_edit"
-            android:title="Tareas Pendientes" />
+            android:title="Añadir Reservas al Hotel" />
 
         <item
             android:id="@+id/nav_encuestas"
@@ -28,9 +28,13 @@
             android:title="Consultar Encuestas" />
 
         <item
-            android:id="@+id/nav_empleados"
+            android:id="@+id/nav_check_out"
             android:icon="@android:drawable/ic_menu_info_details"
-            android:title="Listado Empleados" />
+            android:title="Realizar Salidas" />
+        <item
+            android:id="@+id/nav_check_in"
+            android:icon="@android:drawable/ic_menu_info_details"
+            android:title="Realizar Entradas" />
     </group>
 
     <item android:title="Opciones de Salida">
